@@ -4,8 +4,17 @@ import React from 'react';
 
 function App() {
 
+  let recentStyle = {
+    left: "0px"
+  }
+
   const [logoHistory, setLogoHistory] = React.useState([]);
-  const [currentPokemon, setCurrentPokemon] = React.useState();
+  const [currentPokemon, setCurrentPokemon] = React.useState({
+    set: "",
+    number: "",
+    setName: "",
+    seriesName: ""
+  });
   const [displayedPokemon, setDisplayedPokemon] = React.useState();
   
   function handleLogoClick(image) {
@@ -27,6 +36,10 @@ function App() {
     }
   }
 
+  function setLogoBorder(e) {
+    console.log(e);
+  }
+
   function handleInputChange(e) {
     setCurrentPokemon((prev) => ({
       ...prev,
@@ -41,6 +54,11 @@ function App() {
     const res = await req.json();
     try {
       setDisplayedPokemon(res.data.images.small);
+      setCurrentPokemon((prev) => ({
+        ...prev,
+        setName: res.data.set.name,
+        seriesName: res.data.set.series 
+      }))
     } catch {
       alert("Pokemon not found.");
     }
@@ -52,12 +70,16 @@ function App() {
               key={index} 
               src={image[0]} 
               alt="Logo Set Pic" 
-              onClick={() => handleLogoClick(image)}/>
+              onClick={() => handleLogoClick(image)}
+            />
+              
   })
 
   return (
     <div className="App">
       <div className="pokemon-display">
+        <h1>{currentPokemon.setName} set</h1>
+        <h2>{currentPokemon.seriesName}</h2>
         <div className="pokemon-form">
           <input type="text" onChange={handleInputChange} name="pokeNumber" />
           <button type="button" onClick={handleInputSubmit} name="pokeSubmit">Submit</button>
@@ -68,8 +90,9 @@ function App() {
         <div className="recents">
           <h1>Recents</h1>
           {logoHistoryList}
+          <div className="recents-active" style={recentStyle}></div>
         </div>
-        <ImageGallery handleLogoClick={handleLogoClick}/>
+        <ImageGallery setLogoBorder={setLogoBorder} handleLogoClick={handleLogoClick}/>
       </div>
         
     </div>

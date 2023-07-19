@@ -28,7 +28,7 @@ body {
 }
 
 .sidebar {
-  width: 760px;
+  width: 850px;
 }
 
 .recents {
@@ -36,10 +36,35 @@ body {
   border-bottom: 5px solid black;
   height: 200px;
   margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.recents-active {
+  width: 110px;
+  height: 110px;
+  margin: 10px;
+  padding: 5px;
+  background-color: rgb(247, 170, 170);
+  border-radius: 20px;
+  position: absolute;
+  left: 0px;
+  bottom: 0;
+  z-index: 0;
 }
 
 .logo {
   width: 100px;
   height: 100px;
   margin: 10px;
+  padding: 5px;
+  border: 5px solid rgba(0, 0, 0, 0);
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo:hover {
+  border: 5px solid black;
+  cursor: pointer;
 }
