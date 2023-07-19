@@ -13,9 +13,10 @@ async function getAllData() {
 }
 
 async function loadCard(id) {
-    const url = `https://api.pokemontcg.io/v2/cards/swsh8-${id}`;
+    const url = `https://api.pokemontcg.io/v2/cards/swsh45-${id}`;
     const res = await fetch(url);
     const data = await res.json();
+    console.log(data.data);
     pokeImg.src = data.data.images.small;
 }
 
