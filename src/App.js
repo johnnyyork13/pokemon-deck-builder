@@ -1,21 +1,21 @@
 import './App.css';
 import ImageGallery from './components/ImageGallery';
 import React from 'react';
+import CardData from './components/CardData';
+import Deck from './components/Deck';
 
 function App() {
 
-  let recentStyle = {
-    left: "0px"
-  }
-
-  const [logoHistory, setLogoHistory] = React.useState([]);
   const [currentPokemon, setCurrentPokemon] = React.useState({
     set: "",
-    number: "",
-    setName: "",
-    seriesName: ""
+    id: "",
+    data: undefined
   });
-  const [displayedPokemon, setDisplayedPokemon] = React.useState();
+
+  const [showLogos, setShowLogos] = React.useState(false);
+  const [showDeck, setShowDeck] = React.useState(false);
+
+  const [deck, setDeck] = React.useState([])
   
   function handleLogoClick(image) {
     const regex = image[1].match(/(?!\.)(?!\/).*(?=\.png)/)[0];
@@ -23,77 +23,67 @@ function App() {
       ...prev,
       set: regex
     }));
-    if (logoHistory.length <= 5 && !logoHistory.includes(image)) {
-      setLogoHistory((prev) => ([
-        image,
-        ...prev
-      ]))
-    } else if (logoHistory.length > 5 && !logoHistory.includes(image)) {
-      setLogoHistory(function(prev){ 
-        const shifted = prev.slice(0, prev.length - 1);
-        return [image, ...shifted]
-      })
-    }
-  }
-
-  function setLogoBorder(e) {
-    console.log(e);
   }
 
   function handleInputChange(e) {
     setCurrentPokemon((prev) => ({
       ...prev,
-      number: e.target.value
+      id: e.target.value
     }));
   }
 
   async function handleInputSubmit() {
-    const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemon.number}`;
-    //console.log(url);
-    const req = await fetch(url);
-    const res = await req.json();
     try {
-      setDisplayedPokemon(res.data.images.small);
-      setCurrentPokemon((prev) => ({
-        ...prev,
-        setName: res.data.set.name,
-        seriesName: res.data.set.series 
-      }))
+      const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemon.id}`;
+      const req = await fetch(url);
+      const res = await req.json();
+      console.log(res);
+      if (!res.error) {
+        setCurrentPokemon((prev) => ({
+          ...prev,
+          data: res.data
+        }))
+      } else {
+        alert("Pokemon not found.");
+      }
     } catch {
       alert("Pokemon not found.");
     }
   }
 
-  const logoHistoryList = logoHistory.map(function(image, index) {
-    return <img 
-              className="logo"
-              key={index} 
-              src={image[0]} 
-              alt="Logo Set Pic" 
-              onClick={() => handleLogoClick(image)}
-            />
-              
-  })
+  function toggleShowLogos() {
+    setShowLogos((prev) => !prev);
+  }
+
+  function toggleShowDeck() {
+    setShowDeck((prev) => !prev);
+  }
+
+  function handleAddToDeck() {
+    setDeck((prev) => ([
+      ...prev,
+      currentPokemon
+    ]))
+  }
 
   return (
     <div className="App">
-      <div className="pokemon-display">
-        <h1>{currentPokemon.setName} set</h1>
-        <h2>{currentPokemon.seriesName}</h2>
-        <div className="pokemon-form">
-          <input type="text" onChange={handleInputChange} name="pokeNumber" />
-          <button type="button" onClick={handleInputSubmit} name="pokeSubmit">Submit</button>
-        </div>
-        <img src={displayedPokemon} alt="Pokemon Card" />
-      </div>
-      <div className="sidebar">
-        <div className="recents">
-          <h1>Recents</h1>
-          {logoHistoryList}
-          <div className="recents-active" style={recentStyle}></div>
-        </div>
-        <ImageGallery setLogoBorder={setLogoBorder} handleLogoClick={handleLogoClick}/>
-      </div>
+        <button type="button" onClick={toggleShowDeck}>{showDeck ? "Hide" : "Show"} Deck</button>
+        {showDeck && <Deck 
+          toggleShowDeck={toggleShowDeck}
+          deck={deck}
+        />}
+        <CardData 
+          handleInputChange={handleInputChange}
+          handleInputSubmit={handleInputSubmit}
+          handleAddToDeck={handleAddToDeck}
+          currentPokemon={currentPokemon}
+        />
+        {showLogos && <ImageGallery  
+            handleLogoClick={handleLogoClick}
+        />}
+        
+        <button type="button" onClick={toggleShowLogos}>{showLogos ? "Hide" : "Show"} Logos</button>
         
     </div>
   );
