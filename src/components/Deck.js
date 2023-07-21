@@ -2,6 +2,7 @@ import React from 'react';
 
 export default function Deck(props) {
 
+
     const [type, setType] = React.useState("All");
 
     function handleTypeFilter(e) {
@@ -9,10 +10,14 @@ export default function Deck(props) {
     }
 
     const typeCards = props.deck.map(function(card, index) {
-        if (type === "All") {
-            return <img key={`allCards-${index}`} src={card.data.images.small} alt="Pokemon Card"/>;
-        } else if (card.data.types.includes(type)) {
-            return <img key={`allCards-${index}`} src={card.data.images.small} alt="Pokemon Card"/>;
+        if (type === "All" || card.data.types.includes(type)) {
+
+            return <img 
+                        key={card.key} 
+                        src={card.data.images.small} 
+                        alt="Pokemon Card"
+                        onClick={() => props.handleDeleteCard(card.key)}
+                    />;
         }
     })
 

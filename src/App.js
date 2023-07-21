@@ -6,16 +6,28 @@ import Deck from './components/Deck';
 
 function App() {
 
+  //FIGURE OUT HOW TO DELETE CARDS FROM DECK
+  
   const [currentPokemon, setCurrentPokemon] = React.useState({
     set: "",
     id: "",
-    data: undefined
+    data: undefined,
+    key: ""
   });
 
   const [showLogos, setShowLogos] = React.useState(false);
   const [showDeck, setShowDeck] = React.useState(false);
-
+  const [saveDeck, setSaveDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
+
+  React.useEffect(function(){
+    setDeck(function() {
+      const data = localStorage.getItem("deck");
+      if (JSON.parse(data)) {
+        setDeck(JSON.parse(data));
+      }
+    })
+  }, [])
   
   function handleLogoClick(image) {
     const regex = image[1].match(/(?!\.)(?!\/).*(?=\.png)/)[0];
@@ -37,11 +49,13 @@ function App() {
       const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemon.id}`;
       const req = await fetch(url);
       const res = await req.json();
-      console.log(res);
+      //console.log(res);
       if (!res.error) {
+        console.log(res)
         setCurrentPokemon((prev) => ({
           ...prev,
-          data: res.data
+          data: res.data,
+          key: res.data.id
         }))
       } else {
         alert("Pokemon not found.");
@@ -66,12 +80,28 @@ function App() {
     ]))
   }
 
+  async function handleDeleteCard(key) {
+    for (let i = 0; i < deck.length; i++) {
+      const card = deck[i];
+      if (key === card.key) {
+        setDeck((prev) => prev.splice(i, 1));
+        setSaveDeck((prev) => !prev);
+      }
+    }
+  }
+
+  function handleSaveDeck() {
+    localStorage.setItem("deck", JSON.stringify(deck));
+  }
+
   return (
     <div className="App">
+        <button type="button" onClick={handleSaveDeck}>Save</button>
         <button type="button" onClick={toggleShowDeck}>{showDeck ? "Hide" : "Show"} Deck</button>
         {showDeck && <Deck 
           toggleShowDeck={toggleShowDeck}
           deck={deck}
+          handleDeleteCard={handleDeleteCard}
         />}
         <CardData 
           handleInputChange={handleInputChange}
