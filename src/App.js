@@ -17,8 +17,8 @@ function App() {
 
   const [showLogos, setShowLogos] = React.useState(false);
   const [showDeck, setShowDeck] = React.useState(false);
-  const [saveDeck, setSaveDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
+
 
   React.useEffect(function(){
     setDeck(function() {
@@ -51,7 +51,6 @@ function App() {
       const res = await req.json();
       //console.log(res);
       if (!res.error) {
-        console.log(res)
         setCurrentPokemon((prev) => ({
           ...prev,
           data: res.data,
@@ -80,12 +79,17 @@ function App() {
     ]))
   }
 
-  async function handleDeleteCard(key) {
-    for (let i = 0; i < deck.length; i++) {
+  function handleDeleteCard(key) {
+    for (let i = deck.length - 1; i >= 0; i--) {
       const card = deck[i];
-      if (key === card.key) {
-        setDeck((prev) => prev.splice(i, 1));
-        setSaveDeck((prev) => !prev);
+      //console.log(card.key, key)
+      //console.log(deck);
+      if (card.key === key) {
+        setDeck(function(prev) {
+          prev.splice(i, 1);
+          console.log(prev);
+          return prev;
+        })
       }
     }
   }
