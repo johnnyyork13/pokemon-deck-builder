@@ -79,7 +79,7 @@ export default function ImageGallery(props) {
 
     return (
         <div className="image-gallery">
-                <h2 className="image-gallery-recents-header">Recents</h2>
+                <h2 className="image-gallery-recents-header">Recent Emblems</h2>
             <div className="recents">
                 {logoHistoryList}
             </div>

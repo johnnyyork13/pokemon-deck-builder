@@ -10,9 +10,8 @@ export default function Deck(props) {
         setType(e.target.value)
     }
 
-    const typeCards = props.deck.map(function(card, index) {
+    const sortedCards = props.deck.map(function(card, index) {
         if (type === "All" || card.data.types.includes(type)) {
-
             return <img 
                         key={card.key} 
                         src={card.data.images.small} 
@@ -30,10 +29,10 @@ export default function Deck(props) {
         <div className="deck-background">
             <div className="deck-container">
                 <div className="deck">
-                    {typeCards}
+                    {sortedCards}
                 </div>
                 <div className="deck-sidebar">
-                        <button type="button" className="closeDeckBtn" onClick={props.toggleShowDeck}>Close</button>
+                        <button type="button" className="closeDeckBtn" onClick={props.toggleShowDeck}>Close Deck</button>
                         <label className="deck-sidebar-label">Filter By Type:</label>
                         <select name="pokemonType" onChange={handleTypeFilter}>
                             <option value="All">No Filter</option>

@@ -18,7 +18,6 @@ function App() {
 
   const [showDeck, setShowDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
-  const [saveDeck, setSaveDeck] = React.useState(false);
   const [userStart, setUserStart] = React.useState(false);
 
 
@@ -42,7 +41,7 @@ function App() {
     if (userStart) {
       localStorage.setItem("deck", JSON.stringify(deck));
     }
-  }, [saveDeck, deck, userStart])
+  }, [deck, userStart])
   
   function handleLogoClick(image) {
     const regex = image[1].match(/(?!\.)(?!\/).*(?=\.png)/)[0];
@@ -112,9 +111,7 @@ function App() {
               handleDeleteCard={handleDeleteCard}
             />}
       <Header 
-        setSaveDeck={setSaveDeck}
         toggleShowDeck={toggleShowDeck}
-        showDeck={showDeck}
       />
       <main>
         <div className="main-sidebar">

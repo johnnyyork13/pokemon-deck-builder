@@ -6,8 +6,7 @@ export default function Header(props) {
         <div className="main header">
             <div className="header-logo"></div>
             <nav>                
-                <button type="button" onClick={props.toggleShowDeck}>{props.showDeck ? "Hide" : "Show"} Deck</button>
-                <button type="button" onClick={() => props.setSaveDeck((prev) => !prev)}>Save Changes</button>
+                <button type="button" onClick={props.toggleShowDeck}>Show Deck</button>
             </nav>
         </div>
     )
