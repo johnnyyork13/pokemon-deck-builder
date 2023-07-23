@@ -4,6 +4,7 @@ export default function Deck(props) {
 
 
     const [type, setType] = React.useState("All");
+    const [removeCard, setRemoveCard] = React.useState(false);
 
     function handleTypeFilter(e) {
         setType(e.target.value)
@@ -16,8 +17,12 @@ export default function Deck(props) {
                         key={card.key} 
                         src={card.data.images.small} 
                         alt="Pokemon Card"
-                        onClick={() => props.handleDeleteCard(card.key)}
-                    />;
+                        onClick={function() {
+                            props.handleDeleteCard(card.key); 
+                            setRemoveCard((prev) => !prev);
+                            }   
+                        }
+                        />;
         }
     })
 

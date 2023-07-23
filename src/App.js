@@ -18,16 +18,31 @@ function App() {
   const [showLogos, setShowLogos] = React.useState(false);
   const [showDeck, setShowDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
+  const [saveDeck, setSaveDeck] = React.useState(false);
+  const [userStart, setUserStart] = React.useState(false);
 
 
-  React.useEffect(function(){
-    setDeck(function() {
-      const data = localStorage.getItem("deck");
-      if (JSON.parse(data)) {
-        setDeck(JSON.parse(data));
-      }
-    })
+  React.useEffect(() => {
+    const savedDeck = localStorage.getItem("deck");
+    setUserStart(true);
+    try {
+      setDeck(function(){
+        let returnedData = []
+        if (savedDeck) {
+          returnedData = JSON.parse(savedDeck);
+        }
+        return returnedData;
+      })
+    } catch {
+      console.log("catch block on saved deck useEffect");
+    }
   }, [])
+
+  React.useEffect(() => {
+    if (userStart) {
+      localStorage.setItem("deck", JSON.stringify(deck));
+    }
+  }, [saveDeck, deck, userStart])
   
   function handleLogoClick(image) {
     const regex = image[1].match(/(?!\.)(?!\/).*(?=\.png)/)[0];
@@ -49,7 +64,6 @@ function App() {
       const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemon.id}`;
       const req = await fetch(url);
       const res = await req.json();
-      //console.log(res);
       if (!res.error) {
         setCurrentPokemon((prev) => ({
           ...prev,
@@ -73,34 +87,30 @@ function App() {
   }
 
   function handleAddToDeck() {
-    setDeck((prev) => ([
-      ...prev,
-      currentPokemon
-    ]))
+    setDeck(function(prev) {
+      const newArr = [
+        ...prev,
+        currentPokemon
+      ]
+      return newArr;
+    })
   }
 
   function handleDeleteCard(key) {
-    for (let i = deck.length - 1; i >= 0; i--) {
-      const card = deck[i];
-      //console.log(card.key, key)
-      //console.log(deck);
-      if (card.key === key) {
-        setDeck(function(prev) {
-          prev.splice(i, 1);
-          console.log(prev);
-          return prev;
-        })
+    setDeck(function(prevDeck) {
+      let newDeck = [];
+      for (const card in prevDeck) {
+        if (prevDeck[card].key !== key) {
+          newDeck.push(prevDeck[card]);
+        }
       }
-    }
-  }
-
-  function handleSaveDeck() {
-    localStorage.setItem("deck", JSON.stringify(deck));
+      return newDeck;
+    })
   }
 
   return (
     <div className="App">
-        <button type="button" onClick={handleSaveDeck}>Save</button>
+        <button type="button" onClick={() => setSaveDeck((prev) => !prev)}>Save</button>
         <button type="button" onClick={toggleShowDeck}>{showDeck ? "Hide" : "Show"} Deck</button>
         {showDeck && <Deck 
           toggleShowDeck={toggleShowDeck}
