@@ -3,6 +3,7 @@ import ImageGallery from './components/ImageGallery';
 import React from 'react';
 import CardData from './components/CardData';
 import Deck from './components/Deck';
+import Header from './components/Header';
 
 function App() {
 
@@ -15,7 +16,6 @@ function App() {
     key: ""
   });
 
-  const [showLogos, setShowLogos] = React.useState(false);
   const [showDeck, setShowDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
   const [saveDeck, setSaveDeck] = React.useState(false);
@@ -78,10 +78,6 @@ function App() {
     }
   }
 
-  function toggleShowLogos() {
-    setShowLogos((prev) => !prev);
-  }
-
   function toggleShowDeck() {
     setShowDeck((prev) => !prev);
   }
@@ -110,24 +106,36 @@ function App() {
 
   return (
     <div className="App">
-        <button type="button" onClick={() => setSaveDeck((prev) => !prev)}>Save</button>
-        <button type="button" onClick={toggleShowDeck}>{showDeck ? "Hide" : "Show"} Deck</button>
-        {showDeck && <Deck 
-          toggleShowDeck={toggleShowDeck}
-          deck={deck}
-          handleDeleteCard={handleDeleteCard}
-        />}
-        <CardData 
-          handleInputChange={handleInputChange}
-          handleInputSubmit={handleInputSubmit}
-          handleAddToDeck={handleAddToDeck}
-          currentPokemon={currentPokemon}
-        />
-        {showLogos && <ImageGallery  
+      {showDeck && <Deck
+              toggleShowDeck={toggleShowDeck}
+              deck={deck}
+              handleDeleteCard={handleDeleteCard}
+            />}
+      <Header 
+        setSaveDeck={setSaveDeck}
+        toggleShowDeck={toggleShowDeck}
+        showDeck={showDeck}
+      />
+      <main>
+        <div className="main-sidebar">
+          <ImageGallery
             handleLogoClick={handleLogoClick}
-        />}
-        
-        <button type="button" onClick={toggleShowLogos}>{showLogos ? "Hide" : "Show"} Logos</button>
+          />
+          <CardData
+            handleInputChange={handleInputChange}
+            handleInputSubmit={handleInputSubmit}
+            handleAddToDeck={handleAddToDeck}
+            currentPokemon={currentPokemon}
+          />
+
+        </div>
+        <div className="main-section">
+          <div className="main-section-display-window">
+            {currentPokemon.data !== undefined && <img className="main-section-display-pokemon" src={currentPokemon.data.images.small} alt="Pokemon Card" />}
+          </div>
+          
+        </div>
+      </main>
         
     </div>
   );

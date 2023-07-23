@@ -1,52 +1,154 @@
 html {
   width: 100%;
   height: 100%;
+  --fifty: #f8fafc;
+  --one: #f1f5f9;
+  --two: #e2e8f0;
+  --three: #cbd5e1;
+  --four: #94a3b8;
+  --five: #64748b;
+  --six: #475569;
+  --seven: #334155;
+  --eight: #1e293b;
+  --nine: #0f172a;
+  --nineFifty: #020617;
+  --bgClear: #1e293bd6;
 }
 
 body {
   width: 100%;
   height: 100%;
   margin: 0;
+  background-color: var(--two);
 }
 
 .App {
   width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
-
-.card-data {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  width: 30%;
+  overflow: auto;
 }
 
+#root {
+  width: 100%;
+  height: 100%;
+}
 
+.header {
+  width: 80%;
+  background-color: var(--five);
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-logo {
+  width: 200px;
+  height: 100px;
+  border: 1px solid red;
+
+}
+
+nav {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+nav button {
+  width: 150px;
+  height: 40px;
+  font-size: 1.1em;
+  background-color: var(--two);
+  border: 2px solid var(--two);
+  border-radius: 3px;
+  border-bottom: none;
+}
+
+nav button:hover {
+  cursor: pointer;
+  background-color: var(--four);
+}
+
+main {
+  background-color: var(--three);
+  width: 80%;
+  display: flex;
+}
+
+.main-sidebar {
+  background-color: var(--four);
+  width: 15%;
+}
+
+.main-section {
+  width: 85%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-section-display-window {
+  width: 100%;
+  height: 400px;
+  border-bottom: 5px solid var(--four);
+  display: flex;
+  align-items: center;
+}
+
+.main-section-display-pokemon {
+  height: 90%;
+  margin-left: 50px;
+  margin-right: 50px;
+}
 
 .image-gallery {
-  width: 850px;
+  padding-top: 20px;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-gallery-logo {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid rgba(0, 0, 0, 0);
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.image-gallery-recents-header {
+  margin: 0;
+  margin-bottom: 10px;
 }
 
 .recents {
-  display: flex;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   width: 100%;
+  height: 100px;
+  padding-bottom: 20px;
   border-bottom: 5px solid black;
-  height: 200px;
-  margin-bottom: 60px;
   position: relative;
   z-index: 1;
 }
 
 .recents-all {
-  width: 110px;
-  height: 110px;
+  width: 30px;
+  height: 30px;
   margin: 10px;
   padding: 5px;
   background-color: white;
-  border: 5px solid rgba(0, 0, 0, 0);
-  border-radius: 20px;
+  border: 2px solid rgba(0, 0, 0, 0);
+  border-radius: 15px;
   position: absolute;
   bottom: 0;
   z-index: 0;
@@ -63,36 +165,72 @@ body {
 
 .recents-div {
   display: flex;
-  flex-direction: row;
-  position: absolute;
-  bottom: 0;
   justify-content: center;
-  align-items: center;
-}
-
-.image-gallery-logo {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-  padding: 5px;
-  border: 5px solid rgba(0, 0, 0, 0);
-  border-radius: 20px;
   position: relative;
-  z-index: 1;
 }
-
-
 
 .image-gallery-all:hover{
-  border: 5px solid black;
+  border: 2px solid black;
   cursor: pointer;
+}
+
+.image-gallery-logo-selection {
+  overflow-y: auto;
+  height:min-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-data {
+  height: 150px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 5px solid black;
+}
+
+.card-data-p {
+  font-size: 1em;
+  font-weight: bolder;
+}
+
+.card-data input {
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+.card-data button {
+  border: none;
+  height: 30px;
+  margin: 5px;
+  background-color: var(--two);
+  border: 2px solid var(--two);
+}
+
+.card-data button:hover {
+  cursor: pointer;
+  background-color: var(--four);
+}
+
+.gallery-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gallery-section-header {
+  font-size: 1.2em;
+  font-weight: bolder;
+  text-align: center;
+  border-bottom: 2px solid black;
 }
 
 .deck-background {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: grey;
+  background-color: var(--bgClear);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,19 +238,52 @@ body {
 
 .closeDeckBtn {
   position: absolute;
-  left: 50px;
-  top: 50px;
+  right: 10px;
+  top: 10px;
+  width: 100px;
+  font-size: 1.1em;
+
+}
+
+.deck-container {
+  width: 80%;
+  height: 80%;
+  position: relative;
+  display: flex;
 }
 
 .deck {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 100%;
   border: 1px solid red;
   z-index: 2;
   background-color: white;
   padding: 30px;
   overflow: auto;
+}
+
+.deck-sidebar {
+  padding: 30px;
+  width: 10%;
+  height: 100%;
+  border: 2px solid red;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2em;
+}
+
+.deck-sidebar-label {
+  display: inline-block;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.deck-sidebar select {
+  width: 100%;
 }

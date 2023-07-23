@@ -1,8 +1,12 @@
 import React from 'react';
 
-const images = require.context('../../poke-assets', true);
-const imageList = images.keys().map(function(image) {
-    return [images(image), image];
+const swshImages = require.context('../../poke-assets/swsh', true);
+const swShImageList = swshImages.keys().map(function(image) {
+    return [swshImages(image), image];
+});
+const sv1Images = require.context('../../poke-assets/sv', true);
+const sv1ImageList = sv1Images.keys().map(function(image) {
+    return [sv1Images(image), image];
 });
 
 let activeIndex;
@@ -39,19 +43,17 @@ export default function ImageGallery(props) {
     }
 
     const logoHistoryList = logoHistory.map(function(image, index) {
-    
-        const leftMargin = 140;
 
         function toggleHoverEnter(e) {
-            e.target.nextSibling.style.border = "5px solid black";
+            e.target.nextSibling.style.border = "2px solid black";
         }
 
         function toggleHoverExit(e) {
-            e.target.nextSibling.style.border = "5px solid rgba(0,0,0,0)";
+            e.target.nextSibling.style.border = "2px solid rgba(0,0,0,0)";
         }
 
         return (
-                <div key={`recents-div-${index}`} className="recents-div" style={{left: `${index * leftMargin}px`}}>
+                <div key={`recents-div-${index}`} className="recents-div">
                     <img 
                         className="image-gallery-logo recents-logo"
                         key={`recent-logo-${index}`} 
@@ -77,20 +79,37 @@ export default function ImageGallery(props) {
 
     return (
         <div className="image-gallery">
+                <h2 className="image-gallery-recents-header">Recents</h2>
             <div className="recents">
-                <h1>Recents</h1>
                 {logoHistoryList}
             </div>
-            {imageList.map(function(image, index) {
-                return <img 
-                    className="image-gallery-logo image-gallery-all"
-                    key={index} 
-                    alt="Pokemon Set Logo" 
-                    src={image[0]} 
-                    onClick={() => {props.handleLogoClick(image); handleUpdateHistory(image);}}
-                    />
-            })
-            }
+            <div className="image-gallery-logo-selection">
+                <p className="gallery-section-header">Scarlet & Violet</p>
+                    {sv1ImageList.map(function(image, index) {
+                            return <img 
+                                className="image-gallery-logo image-gallery-all"
+                                key={index} 
+                                alt="Pokemon Set Logo" 
+                                src={image[0]} 
+                                onClick={() => {props.handleLogoClick(image); handleUpdateHistory(image);}}
+                                />
+                            })
+                        }
+                <p className="gallery-section-header">Sword and Shield</p>
+                <div className="gallery-section">
+                    {swShImageList.map(function(image, index) {
+                        return <img 
+                            className="image-gallery-logo image-gallery-all"
+                            key={index} 
+                            alt="Pokemon Set Logo" 
+                            src={image[0]} 
+                            onClick={() => {props.handleLogoClick(image); handleUpdateHistory(image);}}
+                            />
+                        })
+                    }
+                </div>
+                
+            </div>
         </div>
     )
 }
