@@ -1,10 +1,10 @@
 import React from 'react';
 
-const swshImages = require.context('../../poke-assets/swsh', true);
+const swshImages = require.context('../assets/swsh', true);
 const swShImageList = swshImages.keys().map(function(image) {
     return [swshImages(image), image];
 });
-const sv1Images = require.context('../../poke-assets/sv', true);
+const sv1Images = require.context('../assets/sv', true);
 const sv1ImageList = sv1Images.keys().map(function(image) {
     return [sv1Images(image), image];
 });
