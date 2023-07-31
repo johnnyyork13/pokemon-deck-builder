@@ -11,14 +11,14 @@ function App() {
   
   const [currentPokemon, setCurrentPokemon] = React.useState({
     set: "",
-    id: "",
     data: undefined,
     key: ""
   });
-
+  const [currentPokemonID, setCurrentPokemonID] = React.useState(1);
   const [showDeck, setShowDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
   const [userStart, setUserStart] = React.useState(false);
+  const [recentPokemon, setRecentPokemon] = React.useState([]);
 
 
   React.useEffect(() => {
@@ -52,15 +52,12 @@ function App() {
   }
 
   function handleInputChange(e) {
-    setCurrentPokemon((prev) => ({
-      ...prev,
-      id: e.target.value
-    }));
+    setCurrentPokemonID(e.target.value);
   }
 
   async function handleInputSubmit() {
     try {
-      const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemon.id}`;
+      const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemonID}`;
       const req = await fetch(url);
       const res = await req.json();
       if (!res.error) {
@@ -69,6 +66,10 @@ function App() {
           data: res.data,
           key: res.data.id
         }))
+        setRecentPokemon((prev) => ([
+          ...prev,
+          currentPokemon
+        ]))
       } else {
         alert("Pokemon not found.");
       }
@@ -103,6 +104,20 @@ function App() {
     })
   }
 
+  const recentPokemonList = recentPokemon.map(function(card, index){
+    let e;
+    if (card.data) {
+      e = <img
+        key={`${index}-${card.key}`} 
+        alt="Recent Pokemon Card"
+        src={card.data.images.small} 
+        className="recent-pokemon-card"
+        onClick={() => setCurrentPokemon(card)}
+      /> 
+    }
+    return e;
+  })
+
   return (
     <div className="App">
       {showDeck && <Deck
@@ -130,7 +145,12 @@ function App() {
           <div className="main-section-display-window">
             {currentPokemon.data !== undefined && <img className="main-section-display-pokemon" src={currentPokemon.data.images.small} alt="Pokemon Card" />}
           </div>
-          
+          <div className="main-section-recent-window">
+            <h2 className="main-section-recent-pokemon-header">Recent Pokemon</h2>
+              <div className="recent-pokemon-card-container">
+                {recentPokemonList}
+              </div>
+          </div>
         </div>
       </main>
         
