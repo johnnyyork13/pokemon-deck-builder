@@ -7,8 +7,6 @@ import Header from './components/Header';
 import Stats from './components/Stats';
 
 function App() {
-
-  //FIX CARD CYCLING BUTTONS
   
   const [currentPokemon, setCurrentPokemon] = React.useState({
     set: "",
@@ -107,13 +105,14 @@ function App() {
 
   function handlePreviousPokemon() {
     if (currentPokemonID > 0) {
-      setCurrentPokemonID((prev) => prev - 1);
+      setCurrentPokemonID((prev) => Number(prev) - 1);
       handleInputSubmit();
     }
   }
 
   function handleNextPokemon() {
-    setCurrentPokemonID((prev) => prev + 1) 
+    console.log(currentPokemon.data);
+    setCurrentPokemonID((prev) => Number(prev) + 1) 
     handleInputSubmit();
   }
 
@@ -164,6 +163,7 @@ function App() {
               data={currentPokemon.data}
               handlePreviousPokemon={handlePreviousPokemon}
               handleNextPokemon={handleNextPokemon}
+              handleAddToDeck={handleAddToDeck}
             />}
           </div>
           <div className="main-section-recent-window">

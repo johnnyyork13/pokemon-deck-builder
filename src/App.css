@@ -250,6 +250,30 @@ main {
   overflow: auto;
 }
 
+.deck-card {
+  position: relative;
+  height: fit-content;
+}
+
+.deck-card:hover .deck-card-overlay {
+  visibility: visible;
+}
+
+.deck-card-overlay {
+  visibility: hidden;
+  background-color: var(--bgClear);
+  height: 100%;
+  width: 100%;
+  color: white;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.deck-card-overlay * {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .deck-sidebar {
   padding: 30px;
   width: 10%;
@@ -314,3 +338,4 @@ main {
   width: 200px;
   margin: 20px;
 }
+

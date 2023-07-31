@@ -6,6 +6,7 @@ export default function Stats(props) {
             <div className="stat-btn">
                 <button onClick={props.handlePreviousPokemon}>Previous</button>
                 <button onClick={props.handleNextPokemon}>Next</button>
+                <button type="button" onClick={props.handleAddToDeck}>Add to Deck</button>
             </div>
             <div className="stat">
                 <span className="stat-span-value">#{props.data.nationalPokedexNumbers[0]} {props.data.name}</span>
