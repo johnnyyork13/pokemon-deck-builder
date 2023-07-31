@@ -18,7 +18,7 @@ function App() {
   const [deck, setDeck] = React.useState([])
   const [userStart, setUserStart] = React.useState(false);
   const [recentPokemon, setRecentPokemon] = React.useState([]);
-
+  const [cardInDeck, setCardInDeck] = React.useState(false);
 
   React.useEffect(() => {
     const savedDeck = localStorage.getItem("deck");
@@ -54,6 +54,14 @@ function App() {
     setCurrentPokemonID(e.target.value);
   }
 
+  React.useEffect(() => {
+    setRecentPokemon((prev) => ([
+      ...prev,
+      currentPokemon
+    ]))
+    setCardInDeck(false);
+  }, [currentPokemon])
+
   async function handleInputSubmit() {
     try {
       const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemonID}`;
@@ -63,12 +71,9 @@ function App() {
         setCurrentPokemon((prev) => ({
           ...prev,
           data: res.data,
-          key: res.data.id
+          key: res.data.id 
         }))
-        setRecentPokemon((prev) => ([
-          ...prev,
-          currentPokemon
-        ]))
+        //console.log(res);
       } else {
         alert("Pokemon not found.");
       }
@@ -111,7 +116,6 @@ function App() {
   }
 
   function handleNextPokemon() {
-    console.log(currentPokemon.data);
     setCurrentPokemonID((prev) => Number(prev) + 1) 
     handleInputSubmit();
   }
@@ -131,6 +135,22 @@ function App() {
   })
 
   const recentPokemonListReversed = recentPokemonList.reverse();
+
+  // async function showSets() {
+  //   const url = `https://api.pokemontcg.io/v2/sets`;
+  //   const req = await fetch(url);
+  //   const res = await req.json();
+  //   console.log(res); 
+  // }
+
+  // showSets();
+
+  for (const cards in deck) {
+    const card = deck[cards];
+    if (card.key === currentPokemon.key && !cardInDeck) {
+      setCardInDeck(true);
+    }
+  }
 
   return (
     <div className="App">
@@ -157,6 +177,7 @@ function App() {
         </div>
         <div className="main-section">
           <div className="main-section-display-window">
+            {cardInDeck && <div className="card-added">Card in Deck</div>}            
             {currentPokemon.data !== undefined && <img className="main-section-display-pokemon" src={currentPokemon.data.images.small} alt="Pokemon Card" />}
             {currentPokemon.data &&
             <Stats 
@@ -167,7 +188,7 @@ function App() {
             />}
           </div>
           <div className="main-section-recent-window">
-            <h2 className="recent-pokemon-header">Recent Pokemon</h2>
+            <h2 className="recent-pokemon-header">Recently Viewed Cards</h2>
               <div className="recent-pokemon-card-container">
                 {recentPokemonListReversed}
               </div>
