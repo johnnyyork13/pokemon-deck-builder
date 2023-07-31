@@ -4,10 +4,11 @@ import React from 'react';
 import CardData from './components/CardData';
 import Deck from './components/Deck';
 import Header from './components/Header';
+import Stats from './components/Stats';
 
 function App() {
 
-  //FIGURE OUT HOW TO DELETE CARDS FROM DECK
+  //FIX CARD CYCLING BUTTONS
   
   const [currentPokemon, setCurrentPokemon] = React.useState({
     set: "",
@@ -104,6 +105,18 @@ function App() {
     })
   }
 
+  function handlePreviousPokemon() {
+    if (currentPokemonID > 0) {
+      setCurrentPokemonID((prev) => prev - 1);
+      handleInputSubmit();
+    }
+  }
+
+  function handleNextPokemon() {
+    setCurrentPokemonID((prev) => prev + 1) 
+    handleInputSubmit();
+  }
+
   const recentPokemonList = recentPokemon.map(function(card, index){
     let e;
     if (card.data) {
@@ -117,6 +130,8 @@ function App() {
     }
     return e;
   })
+
+  const recentPokemonListReversed = recentPokemonList.reverse();
 
   return (
     <div className="App">
@@ -144,11 +159,17 @@ function App() {
         <div className="main-section">
           <div className="main-section-display-window">
             {currentPokemon.data !== undefined && <img className="main-section-display-pokemon" src={currentPokemon.data.images.small} alt="Pokemon Card" />}
+            {currentPokemon.data &&
+            <Stats 
+              data={currentPokemon.data}
+              handlePreviousPokemon={handlePreviousPokemon}
+              handleNextPokemon={handleNextPokemon}
+            />}
           </div>
           <div className="main-section-recent-window">
-            <h2 className="main-section-recent-pokemon-header">Recent Pokemon</h2>
+            <h2 className="recent-pokemon-header">Recent Pokemon</h2>
               <div className="recent-pokemon-card-container">
-                {recentPokemonList}
+                {recentPokemonListReversed}
               </div>
           </div>
         </div>
