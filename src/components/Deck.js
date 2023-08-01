@@ -3,112 +3,147 @@ import Card from './Card';
 
 export default function Deck(props) {
 
-
-    const [type, setType] = React.useState("All");
-    const [stat, setStat] = React.useState("All");
     const [removeCard, setRemoveCard] = React.useState(false);
+    const [filteredDeck, setFilteredDeck] = React.useState(props.deck);
+    const [updateDeckDisplay, setUpdateDeckDisplay] = React.useState(false);
+    const [filters, setFilters] = React.useState({
+        type: "All",
+        stat: "All"
+    })
+
+    function sortAtk(deck) {
+        const atkDeck = deck;
+        atkDeck.sort(function(cardA, cardB) {
+            let aHighest = 0;
+            let bHighest = 0;
+            if (!cardA.data.attacks) {
+                return 1;
+            } else if (!cardB.data.attacks) {
+                return -1;
+            }
+            for (let i = 0; i < cardA.data.attacks.length; i++) {
+                const atkVal = cardA.data.attacks[i].damage.match(/\d*/g)[0];
+                if (atkVal > aHighest) {
+                    aHighest = Number(atkVal);
+                }
+            }
+            for (let i = 0; i < cardB.data.attacks.length; i++) {
+                const atkVal = cardB.data.attacks[i].damage.match(/\d*/g)[0];
+                if (atkVal > bHighest) {
+                    bHighest = Number(atkVal);
+                }
+            }
+            return aHighest > bHighest ? -1 : 1;
+        })
+        return atkDeck;
+    }
+
+    function sortPokedex(deck) {
+        const pokedexDeck = deck;
+        pokedexDeck.sort(function(cardA, cardB){
+            let returnVal = -1;
+            const aVal = cardA.data.nationalPokedexNumbers ? cardA.data.nationalPokedexNumbers[0] : 0;
+            const bVal = cardB.data.nationalPokedexNumbers ? cardB.data.nationalPokedexNumbers[0] : 0;
+            if (aVal === 0 || (bVal !== 0 && aVal > bVal)) {
+                returnVal = 1;
+            }
+            return returnVal;
+        })  
+        return pokedexDeck;
+    }
+
+    function sortVal(deck) {
+        const valDeck = deck;
+        valDeck.sort(function(cardA, cardB) {
+            const aVal = Number(cardA.data.cardmarket.prices.averageSellPrice);
+            const bVal = Number(cardB.data.cardmarket.prices.averageSellPrice);
+            return aVal >= bVal ? -1 : 1; 
+        })
+        return valDeck;
+    }
+
+    function sortHp(deck) {
+        const hpDeck = deck;
+        hpDeck.sort(function(cardA, cardB) {
+            const aVal = Number(cardA.data.hp);
+            const bVal = Number(cardB.data.hp);
+            return aVal > bVal ? -1 : 1;
+        })
+        return hpDeck;
+    }
+
+    function returnCard(card) {
+        return <Card
+                    key={card.key}
+                    src={card.data.images.small}
+                    data={card.data}
+                    handleDeleteCard={function() {
+                        props.handleDeleteCard(card.key);
+                        setRemoveCard((prev) => !prev);
+                    }}
+                />
+    }
+
 
     function handleTypeFilter(e) {
-        setType(e.target.value);
+        const type = e.target.value;
+        setFilters({
+            type: e.target.value,
+            stat: "All"
+        })
+        try {
+            setFilteredDeck(function() {
+                const mainDeck = props.deck.filter(function(card) {
+                    if (type === "All" ||
+                        (card.data.supertype === "Pokémon" && card.data.types.includes(type)) ||
+                        (card.data.supertype === "Trainer" && type === "allTrainers") ||
+                        (card.data.supertype === "Pokémon" && type === "allTypes") ||
+                        card.data.supertype === type ||
+                        card.data.subtypes[0] === type) {
+                            return card;
+                        }
+                })
+                return mainDeck;
+            })
+            setUpdateDeckDisplay((prev) => !prev);
+        } catch {
+            console.log('Catch block - HandleTypeFilter')
+        }
+        
     }
 
     function handleStatFilter(e) {
-        setStat(e.target.value);
-    }
-
-    try {
-        if (stat === "atk") {
-            props.deck.sort(function(cardA, cardB) {
-                let aHighest = 0;
-                let bHighest = 0;
-                for (let i = 0; i < cardA.data.attacks.length; i++) {
-                    const atkVal = cardA.data.attacks[i].damage.match(/\d*/g)[0];
-                    if (atkVal > aHighest) {
-                        aHighest = Number(atkVal);
-                    }
-                }
-                for (let i = 0 ; i < cardB.data.attacks.length; i++) {
-                    const atkVal = cardB.data.attacks[i].damage.match(/\d*/g)[0];
-                    if (atkVal > bHighest) {
-                        bHighest = Number(atkVal);
-                    }
-                }
-                //console.log(cardA.data.name, aHighest, cardB.data.name, bHighest);
-                return aHighest > bHighest ? -1 : 1;
-            })
-        } else if (stat === "val") {
-            props.deck.sort(function(cardA, cardB) {
-                const aVal = cardA.data.cardmarket.prices.averageSellPrice;
-                const bVal = cardB.data.cardmarket.prices.averageSellPrice;
-                return aVal > bVal ? -1 : 1;
-            })
-        } else if (stat === "hp") {
-            props.deck.sort(function(cardA, cardB) {
-                const aHP = Number(cardA.data.hp);
-                const bHP = Number(cardB.data.hp);
-                return aHP > bHP ? -1 : 1;
-            })
-        } else if (stat === "All") {
-            try {
-                let aNum;
-                let bNum;
-                props.deck.sort(function(a, b) {
-                    aNum = a.data.nationalPokedexNumbers[0];
-                    bNum = b.data.nationalPokedexNumbers[0];
-                    return aNum >= bNum ? 1 : -1;
-                })
-            } catch {
-                console.log('Stat Error')
+        setFilters((prev) => ({
+            ...prev,
+            stat: e.target.value
+        }))
+        const stat = e.target.value;
+        try {
+            if (stat === "atk") {
+                setFilteredDeck((prev) => sortAtk(prev));
+            } else if (stat === "pokedex") {
+                setFilteredDeck((prev) => sortPokedex(prev));
+            } else if (stat === "val") {
+                setFilteredDeck((prev) => sortVal(prev));
+            } else if (stat === "hp") {
+                setFilteredDeck((prev) => sortHp(prev));
             }
-    
+            setUpdateDeckDisplay((prev) => !prev);
+        } catch {
+            console.log('Catch Block - HandleStatFilter')
         }
-    } catch {
-        console.log('Stat Error');
     }
-    
-
-    //console.log(props.deck);
-    const sortedCards = props.deck.map(function(card, index) {
-        if (type === "All" ||
-            (card.data.supertype === "Pokémon" && card.data.types.includes(type)) ||
-            (type === "allTypes" && card.data.supertype === "Pokémon") ||
-            (type === "allTrainers" && card.data.supertype === "Trainer") ||
-            (type === "item" && card.data.subtypes[0] === "Item") ||
-            (type === "supporter" && card.data.subtypes[0] === "Supporter") ||
-            (type === "stadium" && card.data.subtypes[0] === "Stadium") ||
-            (type === "energy" && card.data.subtypes[0] === "Special")) {
-            return <Card
-                key={card.key}
-                src={card.data.images.small}
-                data={card.data}
-                handleDeleteCard={function() {
-                    props.handleDeleteCard(card.key);
-                    setRemoveCard((prev) => !prev);
-                }}
-            />
-            // return <img 
-            //             key={card.key} 
-            //             src={card.data.images.small} 
-            //             alt="Pokemon Card"
-            //             onClick={function() {
-            //                 props.handleDeleteCard(card.key); 
-            //                 setRemoveCard((prev) => !prev);
-            //                 }   
-            //             }
-            //             />;
-        }
-    })  
 
     return (
         <div className="deck-background">
             <div className="deck-container">
                 <div className="deck">
-                    {sortedCards}
+                    {filteredDeck.map((card) => returnCard(card))}
                 </div>
                 <div className="deck-sidebar">
                         <button type="button" className="closeDeckBtn" onClick={props.toggleShowDeck}>Close Deck</button>
                         <label className="deck-sidebar-label">Filter By Type:</label>
-                        <select name="pokemonType" onChange={handleTypeFilter}>
+                        <select name="pokemonType" value={filters.type} onChange={handleTypeFilter}>
                                 <option value="All">No Filter</option>
                             <optgroup label="Types">
                                 <option value="allTypes">All Types</option>
@@ -125,20 +160,20 @@ export default function Deck(props) {
                             </optgroup>
                             <optgroup label="Supporter Cards">
                                 <option value="allTrainers">All Trainers</option>
-                                <option value="item">Item</option>
-                                <option value="supporter">Supporter</option>
-                                <option value="stadium">Stadium</option>
-                                <option value="energy">Special Energy</option>
+                                <option value="Item">Item</option>
+                                <option value="Supporter">Supporter</option>
+                                <option value="Stadium">Stadium</option>
+                                <option value="Special">Special Energy</option>
                             </optgroup>
 
                         </select>
                         <label className="deck-sidebar-label">Filter by Stats:</label>
-                        <select name="pokemonStat" onChange={handleStatFilter}>
-                            <option value="All">Pokedex Number</option>
+                        <select name="pokemonStat" value={filters.stat} onChange={handleStatFilter}>
+                            <option value="All">No Filter</option>
+                            <option value="pokedex">Pokedex Number</option>
                             <option value="atk">ATK</option>
                             <option value="hp">HP</option>
                             <option value="val">Value</option>
-
                         </select>
                 </div>
             </div>
