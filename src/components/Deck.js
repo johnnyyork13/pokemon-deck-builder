@@ -178,7 +178,7 @@ export default function Deck(props) {
                     {renderedCards}
                 </div>
                 <div className="deck-sidebar">
-                        <button type="button" className="close-deck-btn" onClick={props.toggleShowDeck}>Close Deck</button>
+                        <button type="button" className="close-deck-btn main-button" onClick={props.toggleShowDeck}>Close Deck</button>
                         <label className="deck-sidebar-label">Filter by Name:</label>
                         <input type="text" onChange={handleNameFilter}/>
                         <label className="deck-sidebar-label">Filter By Type:</label>
@@ -186,12 +186,13 @@ export default function Deck(props) {
                                 <option value="All">No Filter</option>
                             <optgroup label="Types">
                                 <option value="allTypes">All Types</option>
+                                <option value="Colorless">Colorless</option>
                                 <option value="Grass">Grass</option>
                                 <option value="Fire">Fire</option>
                                 <option value="Water">Water</option>
                                 <option value="Psychic">Psychic</option>
-                                <option value="Dark">Dark</option>
-                                <option value="Steel">Steel</option>
+                                <option value="Darkness">Dark</option>
+                                <option value="Metal">Steel</option>
                                 <option value="Lightning">Lightning</option>
                                 <option value="Dragon">Dragon</option>
                                 <option value="Fairy">Fairy</option>

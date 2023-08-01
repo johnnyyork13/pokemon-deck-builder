@@ -29,10 +29,10 @@ export default function Stats(props) {
                 </div>
                 <div className="stat-btn">
                     <div className="stat-btn-cycle">
-                        <button onClick={props.handlePreviousPokemon}>Previous</button>
-                        <button onClick={props.handleNextPokemon}>Next</button>
+                        <button className="main-button" onClick={props.handlePreviousPokemon}>{Number(props.data.number) > 1 ? "Previous" : "-"} {(props.data.id && Number(props.data.number) > 1) && `(#${Number(props.data.number) - 1})`}</button>
+                        <button className="main-button" onClick={props.handleNextPokemon}>Next {props.data.id && `(#${Number(props.data.number) + 1})`}</button>
                     </div>
-                    <button type="button" onClick={props.handleAddToDeck}>Add to Deck</button>
+                    <button type="button" className="main-button" onClick={props.handleAddToDeck}>Add to Deck</button>
                 </div>
             </div>
         )

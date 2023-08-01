@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Stats from './components/Stats';
 import Help from './components/Help';
 
+let globalID = 1;
 function App() {
   
   const [currentPokemon, setCurrentPokemon] = React.useState({
@@ -22,6 +23,7 @@ function App() {
   const [cardInDeck, setCardInDeck] = React.useState(false);
   const [cycleCards, setCycleCards] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
+
 
   React.useEffect(() => {
     const savedDeck = localStorage.getItem("deck");
@@ -45,6 +47,30 @@ function App() {
     }
   }, [deck, userStart])
   
+
+  React.useEffect(function(){
+    setRecentPokemon(function(prev) {
+      try {
+        if (prev[prev.length - 1].key !== currentPokemon.key) {
+          return [
+            ...prev,
+            currentPokemon
+          ]
+        } else {
+          return [
+            ...prev
+          ]
+        }
+      } catch {
+        return [
+          ...prev,
+          currentPokemon
+        ]
+      }
+    })
+    setCardInDeck(false);
+}, [currentPokemon])
+
   function handleLogoClick(image) {
     const regex = image[1].match(/(?!\.)(?!\/).*(?=\.png)/)[0];
     setCurrentPokemon((prev) => ({
@@ -54,30 +80,37 @@ function App() {
   }
 
   function handleInputChange(e) {
-    setCurrentPokemonID(e.target.value);
+    globalID = e.target.value;
   }
 
-  React.useEffect(() => {
-    setRecentPokemon((prev) => ([
-      ...prev,
-      currentPokemon
-    ]))
-    setCardInDeck(false);
-  }, [currentPokemon])
+  function handlePreviousPokemon() {
+    if (currentPokemonID > 0) {
+      if (globalID > 1) {
+        globalID--;
+      }
+      handleInputSubmit();
+    }
+  }
+
+  function handleNextPokemon() {
+    globalID++;
+    handleInputSubmit();
+  }
 
   async function handleInputSubmit() {
     try {
-      const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemonID}`;
+      const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${globalID}`;
       const req = await fetch(url);
       const res = await req.json();
-      console.log(res);
       if (!res.error) {
-        setCurrentPokemon((prev) => ({
-          ...prev,
-          data: res.data,
-          key: res.data.id 
-        }))
         //console.log(res);
+        setCurrentPokemon(function(prev) { 
+          return {
+            ...prev,
+            data: res.data,
+            key: res.data.id 
+          }
+        })
       } else {
         alert("Pokemon not found.");
       }
@@ -119,42 +152,24 @@ function App() {
     })
   }
 
-  function handlePreviousPokemon() {
-    if (currentPokemonID > 0) {
-      setCurrentPokemonID((prev) => Number(prev) - 1);
-      handleInputSubmit();
-    }
-  }
-
-  function handleNextPokemon() {
-    setCurrentPokemonID((prev) => Number(prev) + 1) 
-    handleInputSubmit();
-  }
-
   const recentPokemonList = recentPokemon.map(function(card, index){
     let e;
     if (card.data) {
       e = <img
-        key={`${index}-${card.key}`} 
+        key={`${index}-${card.key}`}
+        id={card.key} 
         alt="Recent Pokemon Card"
         src={card.data.images.small} 
         className="recent-pokemon-card"
-        onClick={() => setCurrentPokemon(card)}
+        onClick={function() {setCurrentPokemon(card); 
+                              globalID = Number(card.data.number); 
+                              handleInputSubmit()}}
       /> 
     }
     return e;
   })
 
   const recentPokemonListReversed = recentPokemonList.reverse();
-
-  // async function showSets() {
-  //   const url = `https://api.pokemontcg.io/v2/sets`;
-  //   const req = await fetch(url);
-  //   const res = await req.json();
-  //   console.log(res); 
-  // }
-
-  // showSets();
 
   for (const cards in deck) {
     const card = deck[cards];
@@ -202,12 +217,12 @@ function App() {
               handleAddToDeck={handleAddToDeck}
             />}
           </div>
-          <div className="main-section-recent-window">
+          {currentPokemon.data !== undefined && <div className="main-section-recent-window">
             <h2 className="recent-pokemon-header">Recently Viewed Cards</h2>
               <div className="recent-pokemon-card-container">
                 {recentPokemonListReversed}
               </div>
-          </div>
+          </div>}
         </div>
       </main>
         

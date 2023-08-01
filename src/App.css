@@ -13,6 +13,13 @@ html {
   --nine: #0f172a;
   --nineFifty: #020617;
   --bgClear: #1e293bd6;
+  --superLightRed: #fef2f2;
+  --lightRed: #fecaca;
+  --medRed: #f87171;
+  --darkRed: #991b1b;
+  --superDarkRed: #7f1d1d;
+  --sideBar: #dc2626;
+  --text: #450a0a;
 }
 
 body {
@@ -39,16 +46,18 @@ body {
 
 .header {
   width: 1500px;
-  background-color: var(--five);
+  background-color: var(--darkRed);
   height: 100px;
   display: flex;
   justify-content: space-between;
+  border-bottom: 3px solid var(--superDarkRed);
 }
 
 .header-logo {
-  width: 200px;
+  width: 500px;
   height: 100px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 nav {
@@ -59,19 +68,31 @@ nav {
 }
 
 nav button {
+  transform: translateY(3px);
   width: 150px;
   height: 40px;
   font-size: 1.1em;
-  background-color: var(--two);
-  border: 2px solid var(--two);
+  background-color: var(--superLightRed);
+  border: 3px solid var(--superDarkRed);
+  border-bottom: 3px solid var(--superLightRed);
   border-radius: 3px;
-  border-bottom: none;
 }
 
 nav button:hover {
   cursor: pointer;
-  background-color: var(--four);
-  color: var(--one);
+  background-color: var(--lightRed);
+  border-bottom: 3px solid var(--lightRed);
+}
+
+.main-button {
+  background-color: var(--lightRed) !important;
+  border: 2px solid var(--superDarkRed) !important; 
+  color: var(--text) !important;
+  border-radius: 5px;
+}
+
+.main-button:hover {
+  background-color: var(--medRed) !important;
 }
 
 main {
@@ -83,12 +104,13 @@ main {
 }
 
 .main-sidebar {
-  background-color: var(--four);
+  background-color: var(--sideBar);
   width: 20%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: var(--text);
 }
 
 
@@ -124,7 +146,7 @@ main {
   width: 100%;
   height: 100px;
   padding-bottom: 20px;
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid var(--superDarkRed);
   position: relative;
   z-index: 1;
 }
@@ -165,6 +187,7 @@ main {
 }
 
 .image-gallery-logo-selection {
+  width: 95%;
   margin-top: 20px;
   overflow-y: auto;
   height:min-content;
@@ -172,16 +195,36 @@ main {
   flex-direction: column;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--darkRed); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nine); 
+}
+
 .card-data {
-  height: 29%;
+  height: 30%;
   width: 90%;
-  margin-top: 50px;
+  margin-top: 20px;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  border-top: 5px solid black;
+  justify-content: flex-start;
+  border-top: 5px solid var(--superDarkRed);
   margin-bottom: 30px;
 }
 
@@ -194,15 +237,17 @@ main {
   height: 30px;
   padding-left: 10px;
   margin-bottom: 10px;
+  font-size: 1.2em;
+  width: 80%;
+  padding-left: 15px;
 }
 
 .card-data button {
   border: none;
   height: 30px;
+  font-size: 1.2em;
   width: 60%;
   margin: 5px;
-  background-color: var(--two);
-  border: 2px solid var(--two);
 }
 
 .card-data button:hover {
@@ -219,7 +264,7 @@ main {
   font-size: 1.2em;
   font-weight: bolder;
   text-align: center;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--superDarkRed);
 }
 
 .deck-background {
@@ -237,8 +282,6 @@ main {
   position: absolute;
   top: 20px;
   font-size: 1.2em;
-  background-color: var(--three);
-  border: 2px solid var(--four);
   color: var(--eight);
 }
 
@@ -250,9 +293,10 @@ main {
 
 .deck-container {
   width: 85%;
-  height: 80%;
+  height: 85%;
   position: relative;
   display: flex;
+  margin-bottom: 40px;
 }
 
 .deck {
@@ -263,7 +307,7 @@ main {
   width: 90%;
   height: 100%;
   z-index: 2;
-  background-color: white;
+  background-color: var(--superLightRed);
   padding: 30px;
   overflow: auto;
 }
@@ -298,17 +342,20 @@ main {
   margin-left: 20px;
   height: fit-content;
   padding-bottom: 50px;
-  background-color: white;
+  background-color: var(--superLightRed);
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 1.2em;
+  color: var(--text);
 }
 
 .deck-sidebar input {
   width:95%;
   height: 30px;
   font-size: 1em;
+  color: var(--text);
+  padding-left: 10px;
 }
 
 .deck-sidebar-label {
@@ -321,6 +368,7 @@ main {
   width: 100%;
   height: 30px;
   font-size: 1em;
+  color: var(--text);
 }
 
 
@@ -329,12 +377,13 @@ main {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--superLightRed);
 }
 
 .main-section-display-window {
   width: 100%;
-  min-height: 50%;
-  border-bottom: 5px solid var(--four);
+  min-height: 55%;
+  border-bottom: 5px solid var(--darkRed);
   display: flex;
   align-items: center;
   position: relative;
@@ -346,7 +395,7 @@ main {
   color: white;
   background-color: green;
   padding: 5px;
-  border: 2px solid black;
+  border: 2px solid var(--superDarkRed);
   font-size: 1.5em;
   right: 10%;
   top: 10%;
@@ -362,6 +411,8 @@ main {
 .stats-container {
   width: 60%;
   height: 93%;
+  position: relative;
+
 }
 
 .stat {
@@ -372,8 +423,13 @@ main {
   flex-direction: column;
 }
 
+.stats-container > div:nth-last-child(2) {
+  position: relative;
+  margin-bottom: 20px;
+}
+
 .stat-btn {
-  margin-top: 20px;
+  align-self: flex-end;
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -387,12 +443,10 @@ main {
 }
 
 .stat-btn button {
-  background-color: var(--two);
   font-size: 1.2em;
 }
 
 .stat-btn button:hover {
-  background-color: var(--four);
   color: var(--one);
   cursor: pointer;
 }
@@ -417,6 +471,8 @@ main {
 
 .recent-pokemon-header {
   margin-left: 20px;
+  color: var(--superDarkRed);
+  border-bottom: 2px solid var(--darkRed);
 }
 
 .recent-pokemon-card-container {
@@ -446,7 +502,7 @@ main {
 .help-container-one {
   width: 70%;
   height: 80%;
-  background-color: white;
+  background-color: var(--superLightRed);
   padding: 20px;
   position: relative;
 }
@@ -454,12 +510,13 @@ main {
 .help-header {
   text-align: center;
   margin-bottom: 0;
+  color: var(--superDarkRed);
 }
 
 .help-container-two {
   width: 100%;
   height: 90%;
-  background-color: white;
+  background-color: var(--superLightRed);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -472,9 +529,10 @@ main {
 }
 
 .help-information {
-  height: 70%;
+  height: 80%;
   width: 50%;
   font-size: 1.2em;
+  color: var(--superDarkRed)
 }
 
 .help-close-btn {
@@ -482,13 +540,9 @@ main {
   right: 20px;
   top: 20px;
   font-size: 1.2em;
-  background-color: var(--three);
-  border: 2px solid var(--four);
   color: var(--eight);
 }
 
 .help-close-btn:hover {
   cursor: pointer;
-  background-color: var(--four);
-  color: var(--two);
 }
