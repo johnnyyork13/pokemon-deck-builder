@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/pokemon-deck-builder/static/css/main.24449a71.css",
+    "main.js": "/pokemon-deck-builder/static/js/main.c510ffb9.js",
+    "static/js/787.2f916391.chunk.js": "/pokemon-deck-builder/static/js/787.2f916391.chunk.js",
+    "static/media/example.png": "/pokemon-deck-builder/static/media/example.dc6efb45045271df44b1.png",
+    "static/media/logo.png": "/pokemon-deck-builder/static/media/logo.c88117f4da820bb38891.png",
+    "index.html": "/pokemon-deck-builder/index.html",
+    "main.24449a71.css.map": "/pokemon-deck-builder/static/css/main.24449a71.css.map",
+    "main.c510ffb9.js.map": "/pokemon-deck-builder/static/js/main.c510ffb9.js.map",
+    "787.2f916391.chunk.js.map": "/pokemon-deck-builder/static/js/787.2f916391.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.24449a71.css",
+    "static/js/main.c510ffb9.js"
+  ]
+}
