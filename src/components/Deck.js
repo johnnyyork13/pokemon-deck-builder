@@ -7,6 +7,7 @@ export default function Deck(props) {
     const [filteredDeck, setFilteredDeck] = React.useState(props.deck);
     const [updateDeckDisplay, setUpdateDeckDisplay] = React.useState(false);
     const [filters, setFilters] = React.useState({
+        name: "",
         type: "All",
         stat: "All"
     })
@@ -79,18 +80,26 @@ export default function Deck(props) {
                     data={card.data}
                     handleDeleteCard={function() {
                         props.handleDeleteCard(card.key);
-                        setRemoveCard((prev) => !prev);
+                        setFilteredDeck(function(prev) {
+                            let newDeck = [];
+                            for (const cards in prev) {
+                                if (prev[cards].key !== card.key) {
+                                    newDeck.push(prev[cards]);
+                                }
+                            }
+                            return newDeck;
+                        })
                     }}
                 />
     }
 
-
     function handleTypeFilter(e) {
         const type = e.target.value;
-        setFilters({
+        setFilters((prev) => ({
+            ...prev,
             type: e.target.value,
             stat: "All"
-        })
+        }))
         try {
             setFilteredDeck(function() {
                 const mainDeck = props.deck.filter(function(card) {
@@ -134,14 +143,44 @@ export default function Deck(props) {
         }
     }
 
+    function handleNameFilter(e) {
+        try {
+            if (e.target.value.length > 0) {
+                const name = e.target.value[0].toUpperCase() + e.target.value.slice(1);
+                setFilters((prev) => ({
+                    ...prev,
+                    name: name
+                }))
+                setFilteredDeck(function(prev) {
+                    const filteredNames = props.deck.filter(function(card) {
+                        if (card.data.name.startsWith(name)) {
+                            return card;
+                        } 
+                    })
+                    return filteredNames;
+    
+                })
+            } else {
+                setFilteredDeck(props.deck);
+            }
+            
+        } catch {
+            console.log("Catch Block - handleNameFilter")
+        }
+    }
+
+    const renderedCards = filteredDeck.map((card) => returnCard(card))
+
     return (
         <div className="deck-background">
             <div className="deck-container">
                 <div className="deck">
-                    {filteredDeck.map((card) => returnCard(card))}
+                    {renderedCards}
                 </div>
                 <div className="deck-sidebar">
-                        <button type="button" className="closeDeckBtn" onClick={props.toggleShowDeck}>Close Deck</button>
+                        <button type="button" className="close-deck-btn" onClick={props.toggleShowDeck}>Close Deck</button>
+                        <label className="deck-sidebar-label">Filter by Name:</label>
+                        <input type="text" onChange={handleNameFilter}/>
                         <label className="deck-sidebar-label">Filter By Type:</label>
                         <select name="pokemonType" value={filters.type} onChange={handleTypeFilter}>
                                 <option value="All">No Filter</option>
@@ -173,7 +212,7 @@ export default function Deck(props) {
                             <option value="pokedex">Pokedex Number</option>
                             <option value="atk">ATK</option>
                             <option value="hp">HP</option>
-                            <option value="val">Value</option>
+                            <option value="val">$Value$</option>
                         </select>
                 </div>
             </div>

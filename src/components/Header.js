@@ -6,8 +6,9 @@ export default function Header(props) {
     return (
         <div className="main header">
             <img src={logoDefault} alt="Logo" className="header-logo" />
-            <nav>                
+            <nav>               
                 <button type="button" onClick={props.toggleShowDeck}>Show Deck</button>
+                <button type="button" onClick={props.toggleShowHelp}>Help</button>
             </nav>
         </div>
     )

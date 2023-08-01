@@ -1,10 +1,11 @@
 import './App.css';
 import ImageGallery from './components/ImageGallery';
 import React from 'react';
-import CardData from './components/CardData';
+import SearchContainer from './components/SearchContainer';
 import Deck from './components/Deck';
 import Header from './components/Header';
 import Stats from './components/Stats';
+import Help from './components/Help';
 
 function App() {
   
@@ -19,6 +20,8 @@ function App() {
   const [userStart, setUserStart] = React.useState(false);
   const [recentPokemon, setRecentPokemon] = React.useState([]);
   const [cardInDeck, setCardInDeck] = React.useState(false);
+  const [cycleCards, setCycleCards] = React.useState(false);
+  const [showHelp, setShowHelp] = React.useState(false);
 
   React.useEffect(() => {
     const savedDeck = localStorage.getItem("deck");
@@ -67,6 +70,7 @@ function App() {
       const url = `https://api.pokemontcg.io/v2/cards/${currentPokemon.set}-${currentPokemonID}`;
       const req = await fetch(url);
       const res = await req.json();
+      console.log(res);
       if (!res.error) {
         setCurrentPokemon((prev) => ({
           ...prev,
@@ -86,14 +90,21 @@ function App() {
     setShowDeck((prev) => !prev);
   }
 
+  function toggleShowHelp() {
+    setShowHelp((prev) => !prev);
+  }
+
   function handleAddToDeck() {
-    setDeck(function(prev) {
-      const newArr = [
-        ...prev,
-        currentPokemon
-      ]
-      return newArr;
-    })
+    if (!cardInDeck) {
+      setDeck(function(prev) {
+        const newArr = [
+          ...prev,
+          currentPokemon
+        ]
+        return newArr;
+      })
+    }
+    setCycleCards((prev) => !prev);
   }
 
   function handleDeleteCard(key) {
@@ -159,15 +170,19 @@ function App() {
               deck={deck}
               handleDeleteCard={handleDeleteCard}
             />}
+      {showHelp && <Help
+              toggleShowHelp={toggleShowHelp}
+            />}
       <Header 
         toggleShowDeck={toggleShowDeck}
+        toggleShowHelp={toggleShowHelp}
       />
       <main>
         <div className="main-sidebar">
           <ImageGallery
             handleLogoClick={handleLogoClick}
           />
-          <CardData
+          <SearchContainer
             handleInputChange={handleInputChange}
             handleInputSubmit={handleInputSubmit}
             handleAddToDeck={handleAddToDeck}
