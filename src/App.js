@@ -80,7 +80,7 @@ function App() {
   }
 
   function handleInputChange(e) {
-    globalID = e.target.value;
+    globalID = e.target.value.toUpperCase();
   }
 
   function handlePreviousPokemon() {
@@ -103,7 +103,7 @@ function App() {
       const req = await fetch(url);
       const res = await req.json();
       if (!res.error) {
-        //console.log(res);
+        console.log(res);
         setCurrentPokemon(function(prev) { 
           return {
             ...prev,

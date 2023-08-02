@@ -102,23 +102,47 @@ export default function Deck(props) {
         }))
         try {
             setFilteredDeck(function() {
-                const mainDeck = props.deck.filter(function(card) {
-                    if (type === "All" ||
-                        (card.data.supertype === "Pokémon" && card.data.types.includes(type)) ||
-                        (card.data.supertype === "Trainer" && type === "allTrainers") ||
-                        (card.data.supertype === "Pokémon" && type === "allTypes") ||
-                        card.data.supertype === type ||
-                        card.data.subtypes[0] === type) {
-                            return card;
-                        }
-                })
-                return mainDeck;
+                if (type !== "allEvolutions") {
+                    const mainDeck = props.deck.filter(function(card) {
+                        if (type === "All" ||
+                            (card.data.supertype === "Pokémon" && card.data.types.includes(type)) ||
+                            (card.data.supertype === "Trainer" && type === "allTrainers") ||
+                            (card.data.supertype === "Pokémon" && type === "allTypes") ||
+                            card.data.supertype === type ||
+                            card.data.subtypes[0] === type) {
+                                return card;
+                            }
+                    })
+                    return mainDeck;
+                } else {
+                    const evolutionDeck = sortEvolution(props.deck);
+                    return evolutionDeck;
+                }
+                
             })
             setUpdateDeckDisplay((prev) => !prev);
         } catch {
             console.log('Catch block - HandleTypeFilter')
         }
         
+    }
+
+    function sortEvolution(deck) {
+        const ordered = sortPokedex(deck);
+        const evolutionDeck = ordered.filter(function(card, index) {
+            try {
+                if (card.data.supertype === "Pokémon" && ((card.data.evolvesTo !== undefined && card.data.subtypes[0] === "Basic" && ordered[index + 1].data.name === card.data.evolvesTo[0]) ||
+                    (card.data.evolvesFrom === ordered[index - 1].data.name) ||
+                    (card.data.evolvesFrom === ordered[index - 1].data.name && card.data.evolvesTo !== undefined && card.data.evolvesTo[0] === ordered[index + 1].data.name) ||
+                    (card.data.evolvesTo === undefined && card.data.evolvesFrom === ordered[index - 1].data.name))) {
+                        //console.log(card);
+                        return card;
+                    }
+            } catch (err) {
+                console.log(err);
+            }
+        })
+        return evolutionDeck;
     }
 
     function handleStatFilter(e) {
@@ -136,7 +160,7 @@ export default function Deck(props) {
                 setFilteredDeck((prev) => sortVal(prev));
             } else if (stat === "hp") {
                 setFilteredDeck((prev) => sortHp(prev));
-            }
+            } 
             setUpdateDeckDisplay((prev) => !prev);
         } catch {
             console.log('Catch Block - HandleStatFilter')
@@ -184,6 +208,9 @@ export default function Deck(props) {
                         <label className="deck-sidebar-label">Filter By Type:</label>
                         <select name="pokemonType" value={filters.type} onChange={handleTypeFilter}>
                                 <option value="All">No Filter</option>
+                            <optgroup label="Evolutions">
+                                <option value="allEvolutions">Started Evolutions</option>
+                            </optgroup>    
                             <optgroup label="Types">
                                 <option value="allTypes">All Types</option>
                                 <option value="Colorless">Colorless</option>
