@@ -56,7 +56,7 @@ export default function ImageGallery(props) {
         } else {
             changeActiveRecent(0);
         }
-        if (logoHistory.length <= 5 && !logoHistory.includes(image)) {
+        if (logoHistory.length <= 7 && !logoHistory.includes(image)) {
             setLogoHistory((prev) => ([
               image,
               ...prev

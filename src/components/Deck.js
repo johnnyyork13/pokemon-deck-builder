@@ -254,8 +254,10 @@ export default function Deck(props) {
                             <option value="hp">HP</option>
                             <option value="val">$Value$</option>
                         </select>
-                        <label className="deck-sidebar-label">Deck Value:</label>
-                        <p>{totalVal}</p>
+                        <div className="deck-sidebar-value-container">
+                            <label className="deck-sidebar-value-label">Deck Value:</label>
+                            <p className="deck-sidebar-value">${totalVal}</p>
+                        </div>
                 </div>
             </div>
             

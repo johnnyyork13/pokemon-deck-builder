@@ -151,6 +151,10 @@ function App() {
     }));
   }
 
+  function handleClearHistory() {
+    setRecentPokemon([]);
+  }
+
   function handleAddToDeck() {
     if (!cardInDeck) {
       setDeck(function(prev) {
@@ -231,18 +235,6 @@ function App() {
         toggleShowHelp={toggleShowHelp}
       />
       <main>
-        <div className="main-sidebar">
-          <ImageGallery
-            handleLogoClick={handleLogoClick}
-          />
-          <SearchContainer
-            handleInputChange={handleInputChange}
-            handleInputSubmit={handleInputSubmit}
-            handleAddToDeck={handleAddToDeck}
-            currentPokemon={currentPokemon}
-          />
-
-        </div>
         <div className="main-section">
           <div className="main-section-display-window">
             {cardInDeck && <div className="card-added">Card in Deck</div>}            
@@ -257,11 +249,26 @@ function App() {
             />}
           </div>
           {currentPokemon.data !== undefined && <div className="main-section-recent-window">
-            <h2 className="recent-pokemon-header">Recently Viewed Cards</h2>
+            <div className="recent-pokemon-header-container">
+              <h2 className="recent-pokemon-header">Recently Viewed Cards</h2>
+              <button className="recent-pokemon-clear-history-btn" onClick={handleClearHistory}>Clear History</button>
+            </div>
               <div className="recent-pokemon-card-container">
                 {recentPokemonListReversed}
               </div>
           </div>}
+        </div>
+        <div className="main-sidebar">
+          <ImageGallery
+            handleLogoClick={handleLogoClick}
+          />
+          <SearchContainer
+            handleInputChange={handleInputChange}
+            handleInputSubmit={handleInputSubmit}
+            handleAddToDeck={handleAddToDeck}
+            currentPokemon={currentPokemon}
+          />
+
         </div>
       </main>
         

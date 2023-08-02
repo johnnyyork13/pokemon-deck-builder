@@ -46,11 +46,9 @@ body {
 
 .header {
   width: 1500px;
-  background-color: var(--darkRed);
+  background-color: var(--superDarkRed);
   height: 100px;
   display: flex;
-  justify-content: space-between;
-  border-bottom: 3px solid var(--superDarkRed);
   position: relative;
 }
 
@@ -58,7 +56,7 @@ body {
   position: absolute;
   right: 10px;
   top: 10px;
-  background-color: var(--darkRed);
+  background-color: var(--superDarkRed);
   border: none;
   font-size: 1.3em;
   color: var(--medRed);
@@ -66,7 +64,7 @@ body {
 }
 
 .help-btn:hover {
-  color: var(--superDarkRed);
+  color: var(--superLightRed);
   cursor: pointer;
 }
 
@@ -78,21 +76,24 @@ body {
 }
 
 nav {
-  width: 40%;
+  width: 60%;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
 }
 
 nav button {
-  transform: translateY(3px);
+  /* transform: translateY(3px); */
   width: 150px;
   height: 40px;
   font-size: 1.1em;
   background-color: var(--superLightRed);
   border: 3px solid var(--superDarkRed);
   border-bottom: 3px solid var(--superLightRed);
-  border-radius: 3px;
+  border-radius: 10px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  color: var(--superDarkRed);
 }
 
 nav button:hover {
@@ -105,11 +106,12 @@ nav button:hover {
   background-color: var(--lightRed) !important;
   border: 2px solid var(--superDarkRed) !important; 
   color: var(--text) !important;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .main-button:hover {
-  background-color: var(--medRed) !important;
+  background-color: var(--darkRed) !important;
+  color: var(--superLightRed) !important;
 }
 
 main {
@@ -128,6 +130,9 @@ main {
   flex-direction: column;
   align-items: center;
   color: var(--text);
+  border-bottom: 5px solid var(--superDarkRed);
+  border-left: 5px solid var(--superDarkRed);
+  border-bottom-right-radius: 20px;
 }
 
 
@@ -146,7 +151,6 @@ main {
   margin: 5px;
   padding: 5px;
   border: 2px solid rgba(0, 0, 0, 0);
-  border-radius: 5px;
   position: relative;
   z-index: 1;
 }
@@ -159,46 +163,43 @@ main {
 .recents {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   width: 100%;
   height: 100px;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
   border-bottom: 5px solid var(--superDarkRed);
   position: relative;
   z-index: 1;
 }
 
-.recents-all {
-  width: 30px;
-  height: 30px;
-  margin: 10px;
-  padding: 5px;
-  background-color: white;
-  border: 2px solid rgba(0, 0, 0, 0);
-  border-radius: 15px;
-  position: absolute;
-  bottom: 0;
-  z-index: 0;
-}
-
-.recents-active {
-  background-color: rgb(247, 170, 170);
-}
-
 .recents-div {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+.recents-all {
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(0, 0, 0, 0);
+  border-radius: 10px;
+  position: absolute;
+  z-index: 0;
+}
+
+.recents-active {
+  background-color: var(--medRed);
 }
 
 
-
-
-
 .image-gallery-all:hover{
+  border-radius: 10px;
   border: 2px solid black;
   cursor: pointer;
 }
@@ -257,13 +258,14 @@ main {
   font-size: 1.2em;
   width: 80%;
   padding-left: 15px;
+  border-radius: 10px;
 }
 
 .card-data button {
   border: none;
-  height: 30px;
+  height: 35px;
   font-size: 1.2em;
-  width: 60%;
+  width: 50%;
   margin: 5px;
 }
 
@@ -327,6 +329,9 @@ main {
   background-color: var(--superLightRed);
   padding: 30px;
   overflow: auto;
+  border-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .deck-card {
@@ -411,7 +416,7 @@ main {
   top: 10px;
   right: 10px;
   background-color: var(--medRed);
-  border: 1px solid var(--superLightRed);
+  border: 1px solid var(--superDarkRed);
   color: var(--superDarkRed);
   font-weight: bolder;
 }
@@ -434,6 +439,9 @@ main {
   align-items: center;
   font-size: 1.2em;
   color: var(--text);
+  border-radius: 20px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .deck-sidebar input {
@@ -442,6 +450,8 @@ main {
   font-size: 1em;
   color: var(--text);
   padding-left: 10px;
+  border: 1px solid var(--superDarkRed);
+  border-radius: 10px;
 }
 
 .deck-sidebar-label {
@@ -455,6 +465,19 @@ main {
   height: 30px;
   font-size: 1em;
   color: var(--text);
+  border: 1px solid var(--superDarkRed);
+  background-color: white;
+}
+
+.deck-sidebar-value-container {
+  background-color: white;
+  border: 1px solid var(--superDarkRed);
+  margin-top: 60px;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 1.2em;
+  border-radius: 10px;
 }
 
 
@@ -464,12 +487,15 @@ main {
   display: flex;
   flex-direction: column;
   background-color: var(--superLightRed);
+  border-left: 5px solid var(--superDarkRed);
+  border-bottom: 5px solid var(--superDarkRed);
+  border-bottom-left-radius: 20px;
 }
 
 .main-section-display-window {
   width: 100%;
   min-height: 55%;
-  border-bottom: 5px solid var(--darkRed);
+  border-bottom: 3px solid var(--superDarkRed);
   display: flex;
   align-items: center;
   position: relative;
@@ -486,6 +512,7 @@ main {
   right: 10%;
   top: 10%;
   pointer-events: none;
+  border-radius: 10px;
 }
 
 .main-section-display-pokemon {
@@ -500,6 +527,8 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
+  color: var(--superDarkRed);
+  font-weight: bold;
 }
 
 .stat {
@@ -508,6 +537,14 @@ main {
   font-size: 1.1em;
   display: flex;
   flex-direction: column;
+}
+
+.stat-pokemon-name {
+  font-size: 1.3em;
+}
+
+.stat-span-description {
+  text-decoration: underline;
 }
 
 .stats-container > div:nth-last-child(2) {
@@ -519,7 +556,12 @@ main {
   margin-top: auto;
   width: 80%;
   display: flex;
-
+  background-color: var(--sideBar);
+  justify-content: space-around;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 15px;
+  border: 3px solid var(--superDarkRed);
 }
 
 .stat-btn button {
@@ -529,6 +571,10 @@ main {
 
 .stat-btn-left {
   width: 50%;
+}
+
+.stat-btn-left button {
+  height: 35px;
 }
 
 .stat-btn-right {
@@ -545,12 +591,10 @@ main {
 
 .stat-btn-cycle button {
   width: 45%;
-  height: 30px;
 }
 
 .add-btn {
   width: 100%;
-  height: 30px;
 }
 
 .show-zoom-btn {
@@ -569,10 +613,31 @@ main {
   margin-bottom: 20px;
 }
 
-.recent-pokemon-header {
+.recent-pokemon-header-container {
   margin-left: 20px;
+  margin-bottom: 20px;
   color: var(--superDarkRed);
   border-bottom: 2px solid var(--darkRed);
+  position: relative;
+}
+
+.recent-pokemon-header {
+  margin-bottom: 10px;;
+}
+
+.recent-pokemon-clear-history-btn {
+  background-color: var(--superLightRed);
+  border: none;
+  font-size: 1.2em;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  color: var(--superDarkRed);
+}
+
+.recent-pokemon-clear-history-btn:hover {
+  cursor: pointer;
+  color: var(--medRed);
 }
 
 .recent-pokemon-card-container {
@@ -605,6 +670,7 @@ main {
   background-color: var(--superLightRed);
   padding: 20px;
   position: relative;
+  border-radius: 20px;
 }
 
 .help-header {
@@ -641,6 +707,9 @@ main {
   top: 20px;
   font-size: 1.2em;
   color: var(--eight);
+  height: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .help-close-btn:hover {

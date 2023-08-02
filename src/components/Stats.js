@@ -11,11 +11,11 @@ export default function Stats(props) {
         return (
             <div className="stats-container">
                 <div className="stat">
-                    <span className="stat-span-value">{props.data.nationalPokedexNumbers && `#${props.data.nationalPokedexNumbers[0]}`} {props.data.name}</span>
+                    <span className="stat-span-value stat-pokemon-name">{props.data.nationalPokedexNumbers && `#${props.data.nationalPokedexNumbers[0]}`} {props.data.name}</span>
                 </div>
                 <div className="stat">
                     <span className="stat-span-description">Average Value: </span>
-                    <span className="state-span-value">{props.data.cardmarket.prices.averageSellPrice}</span>
+                    <span className="state-span-value">${props.data.cardmarket.prices.averageSellPrice}</span>
                 </div>
                 <div className="stat">
                     <span className="stat-span-description">Set Name: </span>
@@ -42,7 +42,7 @@ export default function Stats(props) {
                         <button type="button" className="main-button add-btn" onClick={props.handleAddToDeck}>Add to Deck</button>
                     </div>
                     <div className="stat-btn-right">
-                        <button className="main-button show-zoom-btn" onClick={props.toggleShowZoom}>Zoom Card</button>
+                        <button className="main-button show-zoom-btn" onClick={() => props.toggleShowZoom(props.data.images.large)}>Zoom Card</button>
                     </div>
                 </div>
             </div>
