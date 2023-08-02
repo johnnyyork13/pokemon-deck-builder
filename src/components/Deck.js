@@ -195,6 +195,17 @@ export default function Deck(props) {
 
     const renderedCards = filteredDeck.map((card) => returnCard(card))
 
+    function totalValueRender() {
+        let totalValue = 0;
+        for (let i = 0; i < props.deck.length; i++) {
+            const card = props.deck[i];
+            totalValue = totalValue + Number(card.data.cardmarket.prices.averageSellPrice);
+        }
+        return totalValue.toFixed(2);
+    }
+
+    const totalVal = totalValueRender();
+
     return (
         <div className="deck-background">
             <div className="deck-container">
@@ -242,6 +253,8 @@ export default function Deck(props) {
                             <option value="hp">HP</option>
                             <option value="val">$Value$</option>
                         </select>
+                        <label className="deck-sidebar-label">Deck Value:</label>
+                        <p>{totalVal}</p>
                 </div>
             </div>
             
