@@ -16,7 +16,7 @@ function App() {
     data: undefined,
     key: ""
   });
-  const [currentPokemonID, setCurrentPokemonID] = React.useState(1);
+
   const [showDeck, setShowDeck] = React.useState(false);
   const [deck, setDeck] = React.useState([])
   const [userStart, setUserStart] = React.useState(false);
@@ -92,6 +92,9 @@ function App() {
     let nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]);
       if (nums > 1) {
         nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]) - 1;
+        if (nums < 10) {
+          nums = `0${nums}`;
+        }
         globalID = chars + nums;
       }
       handleInputSubmit();
@@ -100,6 +103,9 @@ function App() {
   function handleNextPokemon() {
     let chars = currentPokemon.data.number.match(/[A-Z]*/)[0];
     let nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]) + 1;
+    if (nums < 10) {
+      nums = `0${nums}`;
+    }
     globalID = chars + nums;
     handleInputSubmit();
   }

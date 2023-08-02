@@ -2,11 +2,6 @@ import React from 'react';
 
 export default function Stats(props) {
 
-    // const prevNumber = props.data.number.slice(0, 2) === "TG" ? Number(props.data.number.slice(2)) - 1 : Number(props.data.number) - 1;
-    // const prevNumChecked = Number(prevNumber) >= 1 ? `Previous (#${prevNumber})` : "-";
-    // const nextNumber = props.data.number.slice(0, 2) === "TG" ? Number(props.data.number.slice(2)) + 1 : Number(props.data.number) + 1 ;
-    // const nextNumChecked = `Next (#${Number(nextNumber)})`;
-
     const prevNumChecked = `Previous (#${Number(props.data.number.match(/[^A-Z]\d*/)) - 1})`;
     const nextNumChecked = `Next (#${Number(props.data.number.match(/[^A-Z]\d*/)) + 1})`;
     try {
