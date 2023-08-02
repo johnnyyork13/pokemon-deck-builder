@@ -39,10 +39,10 @@ export default function Stats(props) {
                             <button className="main-button" onClick={props.handlePreviousPokemon}>{prevNumChecked}</button>
                             <button className="main-button" onClick={props.handleNextPokemon}>{nextNumChecked}</button>
                         </div>
-                        <button type="button" className="main-button add-btn" onClick={props.handleAddToDeck}>Add to Deck</button>
+                        <button type="button" className="main-button show-zoom-btn" onClick={() => props.toggleShowZoom(props.data.images.large)}>Zoom</button>
                     </div>
                     <div className="stat-btn-right">
-                        <button className="main-button show-zoom-btn" onClick={() => props.toggleShowZoom(props.data.images.large)}>Zoom Card</button>
+                        <button className="main-button add-btn" onClick={props.handleAddToDeck}>Add to Deck</button>
                     </div>
                 </div>
             </div>

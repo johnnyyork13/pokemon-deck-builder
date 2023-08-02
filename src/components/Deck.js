@@ -132,11 +132,12 @@ export default function Deck(props) {
         const ordered = sortPokedex(deck);
         const evolutionDeck = ordered.filter(function(card, index) {
             try {
+                
                 if (card.data.supertype === "Pokémon" && ((card.data.evolvesTo !== undefined && card.data.subtypes[0] === "Basic" && ordered[index + 1].data.name === card.data.evolvesTo[0]) ||
-                    (card.data.evolvesFrom === ordered[index - 1].data.name) ||
-                    (card.data.evolvesFrom === ordered[index - 1].data.name && card.data.evolvesTo !== undefined && card.data.evolvesTo[0] === ordered[index + 1].data.name) ||
-                    (card.data.evolvesTo === undefined && card.data.evolvesFrom === ordered[index - 1].data.name))) {
-                        //console.log(card);
+                    (ordered[index - 1] !== undefined && card.data.evolvesFrom === ordered[index - 1].data.name) ||
+                    (ordered[index - 1] !== undefined && card.data.evolvesFrom === ordered[index - 1].data.name && card.data.evolvesTo !== undefined && card.data.evolvesTo[0] === ordered[index + 1].data.name) ||
+                    (card.data.evolvesTo === undefined && card.data.evolvesFrom === ordered[index - 1].data.name) ||
+                    (card.data.evolvesTo === undefined && ordered[index + 1].data.evolvesFrom === card.data.name))) {
                         return card;
                     }
             } catch (err) {
@@ -221,7 +222,7 @@ export default function Deck(props) {
                         <select name="pokemonType" value={filters.type} onChange={handleTypeFilter}>
                                 <option value="All">No Filter</option>
                             <optgroup label="Evolutions">
-                                <option value="allEvolutions">Started Evolutions</option>
+                                <option value="allEvolutions">Evolution Chains</option>
                             </optgroup>    
                             <optgroup label="Types">
                                 <option value="allTypes">All Types</option>
@@ -249,10 +250,10 @@ export default function Deck(props) {
                         <label className="deck-sidebar-label">Filter by Stats:</label>
                         <select name="pokemonStat" value={filters.stat} onChange={handleStatFilter}>
                             <option value="All">No Filter</option>
+                            <option value="val">Value</option>
                             <option value="pokedex">Pokedex Number</option>
                             <option value="atk">ATK</option>
                             <option value="hp">HP</option>
-                            <option value="val">$Value$</option>
                         </select>
                         <div className="deck-sidebar-value-container">
                             <label className="deck-sidebar-value-label">Deck Value:</label>

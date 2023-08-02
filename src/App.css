@@ -193,6 +193,11 @@ main {
   z-index: 0;
 }
 
+.recents-logo:hover {
+  cursor: pointer;
+}
+
+
 .recents-active {
   background-color: var(--medRed);
 }
@@ -570,7 +575,10 @@ main {
 }
 
 .stat-btn-left {
-  width: 50%;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .stat-btn-left button {
@@ -593,11 +601,11 @@ main {
   width: 45%;
 }
 
-.add-btn {
-  width: 100%;
+.show-zoom-btn {
+  width: 70%;
 }
 
-.show-zoom-btn {
+.add-btn {
   width: 100%;
   height: 100%;
   font-size: 1.3em !important;

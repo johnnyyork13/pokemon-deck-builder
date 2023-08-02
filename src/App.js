@@ -206,14 +206,14 @@ function App() {
     }
   }
 
-  // async function showSets() {
-  //   const url = "https://api.pokemontcg.io/v2/sets/";
-  //   const req = await fetch (url);
-  //   const res = await req.json();
-  //   console.log(res);
-  // }
+  async function showSets() {
+    const url = "https://api.pokemontcg.io/v2/sets/";
+    const req = await fetch (url);
+    const res = await req.json();
+    console.log(res);
+  }
 
-  // showSets();
+  showSets();
 
   return (
     <div className="App">
