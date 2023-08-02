@@ -88,26 +88,19 @@ function App() {
   }
 
   function handlePreviousPokemon() {
-      if (globalID > 1 || (typeof(globalID) === "string" && Number(globalID.slice(2)) > 1)) {
-        if (currentPokemon.data.number.slice(0, 2) !== "TG") {
-          globalID--;
-        } else {
-          const tgNum = Number(currentPokemon.data.number.slice(2));
-          const tgFixed = tgNum + 1 < 10 ? `TG0${tgNum - 1}` : `TG${tgNum - 1}`;
-          globalID = tgFixed;
-        }
+    let chars = currentPokemon.data.number.match(/[A-Z]*/)[0];
+    let nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]);
+      if (nums > 1) {
+        nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]) - 1;
+        globalID = chars + nums;
       }
       handleInputSubmit();
   }
 
   function handleNextPokemon() {
-    if (currentPokemon.data.number.slice(0, 2) !== "TG") {
-        globalID++;
-    } else {
-        const tgNum = Number(currentPokemon.data.number.slice(2));
-        const tgFixed = tgNum + 1 < 10 ? `TG0${tgNum + 1}` : `TG${tgNum + 1}`;
-        globalID = tgFixed;
-    }
+    let chars = currentPokemon.data.number.match(/[A-Z]*/)[0];
+    let nums = Number(currentPokemon.data.number.match(/[^A-Z]\d*/)[0]) + 1;
+    globalID = chars + nums;
     handleInputSubmit();
   }
 
@@ -206,14 +199,14 @@ function App() {
     }
   }
 
-  async function showSets() {
-    const url = "https://api.pokemontcg.io/v2/sets/";
-    const req = await fetch (url);
-    const res = await req.json();
-    console.log(res);
-  }
+  // async function showSets() {
+  //   const url = "https://api.pokemontcg.io/v2/sets/";
+  //   const req = await fetch (url);
+  //   const res = await req.json();
+  //   console.log(res);
+  // }
 
-  showSets();
+  // showSets();
 
   return (
     <div className="App">
