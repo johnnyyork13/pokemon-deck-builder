@@ -25,7 +25,6 @@ export default function Help(props) {
                             So, for the example card to the left you would enter 001, or just 1.
                         </p>
                         <h2>4. Search!</h2>
-                        <p></p>
                     </div>
                 </div>
             </div>
