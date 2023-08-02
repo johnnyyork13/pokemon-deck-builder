@@ -51,6 +51,23 @@ body {
   display: flex;
   justify-content: space-between;
   border-bottom: 3px solid var(--superDarkRed);
+  position: relative;
+}
+
+.help-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: var(--darkRed);
+  border: none;
+  font-size: 1.3em;
+  color: var(--medRed);
+  font-weight: bolder;
+}
+
+.help-btn:hover {
+  color: var(--superDarkRed);
+  cursor: pointer;
 }
 
 .header-logo {
@@ -105,7 +122,7 @@ main {
 
 .main-sidebar {
   background-color: var(--sideBar);
-  width: 20%;
+  width: 25%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -124,12 +141,12 @@ main {
 }
 
 .image-gallery-logo {
-  width: 30px;
-  height: 30px;
+  height: 45px;
+  width: 45px;
   margin: 5px;
   padding: 5px;
   border: 2px solid rgba(0, 0, 0, 0);
-  border-radius: 15px;
+  border-radius: 5px;
   position: relative;
   z-index: 1;
 }
@@ -202,7 +219,7 @@ main {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0); 
+  background: var(--medRed); 
 }
  
 /* Handle */
@@ -334,9 +351,75 @@ main {
   border-radius: 10px;
 }
 
-.deck-card-overlay * {
+.deck-card-overlay-section {
+  margin: 10px;
+  background-color: var(--superLightRed);
+  color: var(--superDarkRed);
+  padding: 1px;
+  border-radius: 10px;
+}
+
+.deck-card-overlay-section:first-child {
+  margin-top: 40px;
+}
+
+.deck-card-overlay-section p {
+  margin: 5px;
   margin-left: 10px;
   margin-right: 10px;
+  font-weight: bolder;
+}
+
+.deck-card-header {
+  font-size: 1.3em;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.deck-card-subheader {
+  font-size: 1.1em;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deck-card-sub-item {
+  font-size: 1.3em;
+  float: right;
+}
+
+.deck-card-zoom-btn {
+  height: 30px;
+  background-color: var(--superLightRed);
+  border: 1px solid var(--darkRed);
+  color: var(--superDarkRed);
+  font-weight: bolder;
+  margin-left: 10px;
+  border-radius: 8px;
+}
+
+.deck-card-zoom-btn:hover {
+  background-color: var(--darkRed);
+  cursor: pointer;
+  color: var(--lightRed);
+  border: 1px solid var(--superLightRed);
+}
+
+.delete-card-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--medRed);
+  border: 1px solid var(--superLightRed);
+  color: var(--superDarkRed);
+  font-weight: bolder;
+}
+
+.delete-card-btn:hover {
+  cursor: pointer;
+  background-color: var(--darkRed);
+  color: var(--superLightRed);
 }
 
 .deck-sidebar {
@@ -413,14 +496,15 @@ main {
 
 .stats-container {
   width: 60%;
-  height: 93%;
+  height: 87%;
   position: relative;
-
+  display: flex;
+  flex-direction: column;
 }
 
 .stat {
   width: 100%;
-  margin: 10px;
+  margin: 5px;
   font-size: 1.1em;
   display: flex;
   flex-direction: column;
@@ -432,10 +516,24 @@ main {
 }
 
 .stat-btn {
-  align-self: flex-end;
-  width: 50%;
+  margin-top: auto;
+  width: 80%;
   display: flex;
-  flex-direction: column;
+
+}
+
+.stat-btn button {
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.stat-btn-left {
+  width: 50%;
+}
+
+.stat-btn-right {
+  width: 25%;
+  margin-left: 20px;
 }
 
 .stat-btn-cycle {
@@ -445,23 +543,22 @@ main {
   justify-content: space-between;
 }
 
-.stat-btn button {
-  font-size: 1.2em;
-}
-
-.stat-btn button:hover {
-  color: var(--one);
-  cursor: pointer;
-}
-
 .stat-btn-cycle button {
   width: 45%;
+  height: 30px;
 }
 
-.stat-btn > button {
+.add-btn {
   width: 100%;
   height: 30px;
 }
+
+.show-zoom-btn {
+  width: 100%;
+  height: 100%;
+  font-size: 1.3em !important;
+}
+
 
 .main-section-recent-window {
   height: 60%;
@@ -548,4 +645,41 @@ main {
 
 .help-close-btn:hover {
   cursor: pointer;
+}
+
+.zoom-card-background {
+  position: absolute;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bgClear);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zoom-card-container {
+  width: 50%;
+  height: 80%;
+  background-color: var(--superLightRed);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  border-radius: 20px;
+}
+
+.zoom-card-container button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  height: 30px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.zoom-card-container img {
+  height: 100%;
+
 }

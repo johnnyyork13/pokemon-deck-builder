@@ -78,6 +78,7 @@ export default function Deck(props) {
                     key={card.key}
                     src={card.data.images.small}
                     data={card.data}
+                    toggleShowZoom={() => props.toggleShowZoom(card.data.images.large)}
                     handleDeleteCard={function() {
                         props.handleDeleteCard(card.key);
                         setFilteredDeck(function(prev) {

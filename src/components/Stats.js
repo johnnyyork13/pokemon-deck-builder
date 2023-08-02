@@ -1,6 +1,12 @@
 import React from 'react';
 
 export default function Stats(props) {
+
+    const prevNumber = props.data.number.slice(0, 2) === "TG" ? Number(props.data.number.slice(2)) - 1 : Number(props.data.number) - 1;
+    const prevNumChecked = Number(prevNumber) >= 1 ? `Previous (#${prevNumber})` : "-";
+    const nextNumber = props.data.number.slice(0, 2) === "TG" ? Number(props.data.number.slice(2)) + 1 : Number(props.data.number) + 1 ;
+    const nextNumChecked = `Next (#${Number(nextNumber)})`;
+
     try {
         return (
             <div className="stats-container">
@@ -28,11 +34,16 @@ export default function Stats(props) {
                     <span className="stat-span-value">{props.data.flavorText}</span>
                 </div>
                 <div className="stat-btn">
-                    <div className="stat-btn-cycle">
-                        <button className="main-button" onClick={props.handlePreviousPokemon}>{Number(props.data.number) > 1 ? "Previous" : "-"} {(props.data.id && Number(props.data.number) > 1) && `(#${Number(props.data.number) - 1})`}</button>
-                        <button className="main-button" onClick={props.handleNextPokemon}>Next {props.data.id && `(#${Number(props.data.number) + 1})`}</button>
+                    <div className="stat-btn-left">
+                        <div className="stat-btn-cycle">
+                            <button className="main-button" onClick={props.handlePreviousPokemon}>{prevNumChecked}</button>
+                            <button className="main-button" onClick={props.handleNextPokemon}>{nextNumChecked}</button>
+                        </div>
+                        <button type="button" className="main-button add-btn" onClick={props.handleAddToDeck}>Add to Deck</button>
                     </div>
-                    <button type="button" className="main-button" onClick={props.handleAddToDeck}>Add to Deck</button>
+                    <div className="stat-btn-right">
+                        <button className="main-button show-zoom-btn" onClick={props.toggleShowZoom}>Zoom Card</button>
+                    </div>
                 </div>
             </div>
         )

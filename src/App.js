@@ -6,6 +6,7 @@ import Deck from './components/Deck';
 import Header from './components/Header';
 import Stats from './components/Stats';
 import Help from './components/Help';
+import ZoomCard from './components/ZoomCard';
 
 let globalID = 1;
 function App() {
@@ -23,7 +24,10 @@ function App() {
   const [cardInDeck, setCardInDeck] = React.useState(false);
   const [cycleCards, setCycleCards] = React.useState(false);
   const [showHelp, setShowHelp] = React.useState(false);
-
+  const [showZoom, setShowZoom] = React.useState({
+    zoom: false,
+    img: ""
+  });
 
   React.useEffect(() => {
     const savedDeck = localStorage.getItem("deck");
@@ -84,16 +88,26 @@ function App() {
   }
 
   function handlePreviousPokemon() {
-    if (currentPokemonID > 0) {
-      if (globalID > 1) {
-        globalID--;
+      if (globalID > 1 || (typeof(globalID) === "string" && Number(globalID.slice(2)) > 1)) {
+        if (currentPokemon.data.number.slice(0, 2) !== "TG") {
+          globalID--;
+        } else {
+          const tgNum = Number(currentPokemon.data.number.slice(2));
+          const tgFixed = tgNum + 1 < 10 ? `TG0${tgNum - 1}` : `TG${tgNum - 1}`;
+          globalID = tgFixed;
+        }
       }
       handleInputSubmit();
-    }
   }
 
   function handleNextPokemon() {
-    globalID++;
+    if (currentPokemon.data.number.slice(0, 2) !== "TG") {
+        globalID++;
+    } else {
+        const tgNum = Number(currentPokemon.data.number.slice(2));
+        const tgFixed = tgNum + 1 < 10 ? `TG0${tgNum + 1}` : `TG${tgNum + 1}`;
+        globalID = tgFixed;
+    }
     handleInputSubmit();
   }
 
@@ -103,7 +117,7 @@ function App() {
       const req = await fetch(url);
       const res = await req.json();
       if (!res.error) {
-        console.log(res);
+        //console.log(res);
         setCurrentPokemon(function(prev) { 
           return {
             ...prev,
@@ -119,12 +133,22 @@ function App() {
     }
   }
 
+
+
   function toggleShowDeck() {
     setShowDeck((prev) => !prev);
   }
 
   function toggleShowHelp() {
     setShowHelp((prev) => !prev);
+  }
+
+  function toggleShowZoom(img) {
+    const zoomed = showZoom.zoom;
+    setShowZoom(() => ({
+      zoom: !zoomed,
+      img: img
+    }));
   }
 
   function handleAddToDeck() {
@@ -178,15 +202,29 @@ function App() {
     }
   }
 
+  // async function showSets() {
+  //   const url = "https://api.pokemontcg.io/v2/sets/";
+  //   const req = await fetch (url);
+  //   const res = await req.json();
+  //   console.log(res);
+  // }
+
+  // showSets();
+
   return (
     <div className="App">
       {showDeck && <Deck
               toggleShowDeck={toggleShowDeck}
               deck={deck}
               handleDeleteCard={handleDeleteCard}
+              toggleShowZoom={toggleShowZoom}
             />}
       {showHelp && <Help
               toggleShowHelp={toggleShowHelp}
+            />}
+      {showZoom.zoom && <ZoomCard
+              toggleShowZoom={toggleShowZoom}
+              img={showZoom.img}
             />}
       <Header 
         toggleShowDeck={toggleShowDeck}
@@ -215,6 +253,7 @@ function App() {
               handlePreviousPokemon={handlePreviousPokemon}
               handleNextPokemon={handleNextPokemon}
               handleAddToDeck={handleAddToDeck}
+              toggleShowZoom={toggleShowZoom}
             />}
           </div>
           {currentPokemon.data !== undefined && <div className="main-section-recent-window">
