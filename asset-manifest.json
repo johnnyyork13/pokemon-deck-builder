@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/pokemon-deck-builder/static/css/main.03b3358c.css",
-    "main.js": "/pokemon-deck-builder/static/js/main.23d7d52f.js",
+    "main.css": "/pokemon-deck-builder/static/css/main.dc7b7831.css",
+    "main.js": "/pokemon-deck-builder/static/js/main.7c4f5c0b.js",
     "static/js/787.2f916391.chunk.js": "/pokemon-deck-builder/static/js/787.2f916391.chunk.js",
     "static/media/example.png": "/pokemon-deck-builder/static/media/example.dc6efb45045271df44b1.png",
-    "static/media/logo.png": "/pokemon-deck-builder/static/media/logo.1079dfd4415bf7293848.png",
+    "static/media/logo.png": "/pokemon-deck-builder/static/media/logo.d0321771e7d2e876aee8.png",
     "static/media/swsh12tg.png": "/pokemon-deck-builder/static/media/swsh12tg.8fe00a917e61fdbdad73.png",
     "index.html": "/pokemon-deck-builder/index.html",
-    "main.03b3358c.css.map": "/pokemon-deck-builder/static/css/main.03b3358c.css.map",
-    "main.23d7d52f.js.map": "/pokemon-deck-builder/static/js/main.23d7d52f.js.map",
+    "main.dc7b7831.css.map": "/pokemon-deck-builder/static/css/main.dc7b7831.css.map",
+    "main.7c4f5c0b.js.map": "/pokemon-deck-builder/static/js/main.7c4f5c0b.js.map",
     "787.2f916391.chunk.js.map": "/pokemon-deck-builder/static/js/787.2f916391.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.03b3358c.css",
-    "static/js/main.23d7d52f.js"
+    "static/css/main.dc7b7831.css",
+    "static/js/main.7c4f5c0b.js"
   ]
 }
